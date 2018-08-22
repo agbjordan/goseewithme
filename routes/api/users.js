@@ -24,6 +24,39 @@ router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 
 ////////// POST
 
+//Route     POST /api/users/login
+//Desc      Login the user / returning the token
+//Access    Public
+router.post("/login", (req, res) => {
+  const errors = {};
+  const email = req.body.email;
+  const password = req.body.password;
+
+  //Find the email in the db
+  User.findOne({ email: email }).then(user => {
+    if (!user) {
+      errors.email = "Username not found";
+      return res.status(404).json({ email: errors.email });
+    }
+
+    //if email is found
+    //check password is correct
+    bcrypt
+      .compare(password, user.password)
+      .then(isMatch => {
+        if (isMatch) {
+          //passwords match
+          res.json({ msg: "Great you match" });
+        } else {
+          //passwords don't match
+          errors.email = "Username or password is invalid";
+          return res.status(400).json({ email: errors.email });
+        }
+      })
+      .catch(err => console.log(err));
+  });
+});
+
 //Route     POST /api/users/register
 //Desc      Register a User
 //Access    Public
