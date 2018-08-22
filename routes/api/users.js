@@ -1,6 +1,8 @@
 const express = require("express");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const jsonwebtoken = require("jsonwebtoken");
+const { jwtKey } = require("../../config/keys-dev");
 
 // require models
 const User = require("../../models/Users");
@@ -13,16 +15,21 @@ const router = express.Router();
 //Route     GET /api/users/test
 
 //Post Routes
+//Route     POST /api/users/login
 //Route     POST /api/users/register
 
-////////// GET
+//////////////////////////
+////////// GET ///////////
+//////////////////////////
 
 //Route     GET /api/users/test
 //Desc      Test User Route
 //Access    Public
 router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 
-////////// POST
+//////////////////////////
+////////// POST //////////
+//////////////////////////
 
 //Route     POST /api/users/login
 //Desc      Login the user / returning the token
@@ -46,7 +53,28 @@ router.post("/login", (req, res) => {
       .then(isMatch => {
         if (isMatch) {
           //passwords match
-          res.json({ msg: "Great you match" });
+
+          //create payload
+          const payload = {
+            id: user.id,
+            name: user.name,
+            avatar: user.avatar,
+            role: user.role
+          };
+
+          //sign token
+          jsonwebtoken.sign(
+            payload,
+            jwtKey,
+            { expiresIn: 10800 },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            }
+          );
         } else {
           //passwords don't match
           errors.email = "Username or password is invalid";
@@ -61,9 +89,12 @@ router.post("/login", (req, res) => {
 //Desc      Register a User
 //Access    Public
 router.post("/register", (req, res) => {
+  const errors = {};
+
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      return res.status(400).json({ email: "Username already exists." });
+      errors.email = "Username already exists.";
+      return res.status(400).json({ email: errors.email });
     }
 
     //gravatar profile image from email
