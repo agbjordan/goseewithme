@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
+//require Keys
 const db = require("./config/keys-dev").mongoURI;
 
 //require api routes
@@ -26,6 +29,10 @@ mongoose
 
 //run server
 app.get("/", (req, res) => res.send("hi mum"));
+
+//body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //routes
 app.use("/api/bookings", bookings);
