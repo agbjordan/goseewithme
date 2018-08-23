@@ -4,6 +4,9 @@ const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
 const { jwtKey } = require("../../config/keys-dev");
 
+//load validation files
+const validateUserRegister = require("../../validation/user_registeration");
+
 // require models
 const User = require("../../models/Users");
 
@@ -89,12 +92,19 @@ router.post("/login", (req, res) => {
 //Desc      Register a User
 //Access    Public
 router.post("/register", (req, res) => {
-  const errors = {};
+  //initiate errors and validation
+  const { errors, isValid } = validateUserRegister(req.body);
 
+  //validate input data
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  //does user already exist
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       errors.email = "Username already exists.";
-      return res.status(400).json({ email: errors.email });
+      return res.status(400).json(errors);
     }
 
     //gravatar profile image from email
