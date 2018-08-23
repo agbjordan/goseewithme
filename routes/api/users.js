@@ -3,8 +3,10 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
 const { jwtKey } = require("../../config/keys-dev");
+const passport = require("passport");
 
 //load validation files
+const validateUserLogin = require("../../validation/user_login");
 const validateUserRegister = require("../../validation/user_registeration");
 
 // require models
@@ -15,6 +17,7 @@ const router = express.Router();
 
 //USER ROUTES
 //Get Routes
+//Route     GET /api/users/current
 //Route     GET /api/users/test
 
 //Post Routes
@@ -24,6 +27,22 @@ const router = express.Router();
 //////////////////////////
 ////////// GET ///////////
 //////////////////////////
+
+//Route     GET /api/users/current
+//Desc      Return the current user
+//Access    Private
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) =>
+    res.json({
+      id: req.user._id,
+      name: req.user.name,
+      role: req.user.role,
+      email: req.user.email,
+      avatar: req.user.avatar
+    })
+);
 
 //Route     GET /api/users/test
 //Desc      Test User Route
@@ -38,7 +57,15 @@ router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 //Desc      Login the user / returning the token
 //Access    Public
 router.post("/login", (req, res) => {
-  const errors = {};
+  //initiate errors and validation
+  const { errors, isValid } = validateUserLogin(req.body);
+
+  //validate input data
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  //form data
   const email = req.body.email;
   const password = req.body.password;
 
