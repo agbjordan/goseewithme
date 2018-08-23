@@ -59,15 +59,14 @@ router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
 router.post("/login", (req, res) => {
   //initiate errors and validation
   const { errors, isValid } = validateUserLogin(req.body);
+  //form data
+  const email = req.body.email;
+  const password = req.body.password;
 
   //validate input data
   if (!isValid) {
     return res.status(400).json(errors);
   }
-
-  //form data
-  const email = req.body.email;
-  const password = req.body.password;
 
   //Find the email in the db
   User.findOne({ email: email }).then(user => {
