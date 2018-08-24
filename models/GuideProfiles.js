@@ -114,6 +114,7 @@ const GuideSchema = new Schema({
   license: {
     validated: {
       type: Boolean,
+      default: false,
       required: true
     },
     licenseID: {
