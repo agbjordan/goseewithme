@@ -3,6 +3,9 @@ const is_Empty = require("./is_Empty");
 
 module.exports = function validateUserRegistrationInput(data) {
   let errors = {};
+  const passwordCheck = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+  );
 
   //turn empty values into strings
   data.name = !is_Empty(data.name) ? data.name : "";
@@ -32,9 +35,6 @@ module.exports = function validateUserRegistrationInput(data) {
   }
 
   //password validation
-  const passwordCheck = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-  );
 
   if (!validator.matches(data.password, passwordCheck)) {
     errors.password =
