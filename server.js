@@ -8,6 +8,7 @@ const db = require("./config/keys-dev").mongoURI;
 
 //require api routes
 const bookings = require("./routes/api/bookings");
+const contactInfo = require("./routes/api/contactInfo");
 const license = require("./routes/api/license");
 const newsletters = require("./routes/api/newsletters");
 const posts = require("./routes/api/posts");
@@ -41,6 +42,7 @@ require("./config/passport.js")(passport);
 
 //routes
 app.use("/api/bookings", bookings);
+app.use("/api/contactInfo", contactInfo);
 app.use("/api/license", license);
 app.use("/api/newsletters", newsletters);
 app.use("/api/posts", posts);
