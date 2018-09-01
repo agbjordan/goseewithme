@@ -28,6 +28,14 @@ const UserSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  totalLogins: {
+    type: Number,
+    default: 1
+  },
+  lastLogin: {
+    type: Date,
+    default: Date.now
   }
 });
 

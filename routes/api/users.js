@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
 const { jwtKey } = require("../../config/keys-dev");
 const passport = require("passport");
+const moment = require("moment");
 
 //load validation files
 const validateUserLogin = require("../../validation/user_login");
@@ -82,6 +83,19 @@ router.post("/login", (req, res) => {
       .then(isMatch => {
         if (isMatch) {
           //passwords match
+
+          //update totallogins & last login date
+          const newlastLogin = moment().format(
+            "ddd, DD MMM YYYY HH:mm:ss [GMT]"
+          );
+          User.findOneAndUpdate(
+            { email: user.email },
+            {
+              $set: { lastLogin: newlastLogin },
+              $inc: { totalLogins: 1 }
+            },
+            { upsert: true }
+          ).catch(err => console.log(err));
 
           //create payload
           const payload = {

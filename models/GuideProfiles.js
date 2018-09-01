@@ -32,9 +32,9 @@ mongoose.set("useFindAndModify", false);
 //    email         // string // required
 //    addressLine01 // string
 //    addressLine02 // string
-//    city          // string
+//    city          // string // required
 //    state         // string
-//    country       // string
+//    country       // string // required
 //    zipcode       // string
 //  products        // array of strings
 //  follows         // array of strings
@@ -46,6 +46,7 @@ mongoose.set("useFindAndModify", false);
 //    wechat        // string
 //    whatsapp      // string
 //    linkedin      // string
+//    instagram     // string
 //  newsletters     // object
 //    product       // boolean
 //    website       // boolean
@@ -133,39 +134,39 @@ const GuideSchema = new Schema({
       type: String
     }
   },
-  contactInfo: [
-    {
-      telephone: {
-        type: String,
-        required: true
-      },
-      mobile: {
-        type: String
-      },
-      email: {
-        type: String,
-        required: true
-      },
-      addressLine01: {
-        type: String
-      },
-      addressLine02: {
-        type: String
-      },
-      city: {
-        type: String
-      },
-      state: {
-        type: String
-      },
-      country: {
-        type: String
-      },
-      zipcode: {
-        type: String
-      }
+  contactInfo: {
+    telephone: {
+      type: String,
+      required: true
+    },
+    mobile: {
+      type: String
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    addressLine01: {
+      type: String
+    },
+    addressLine02: {
+      type: String
+    },
+    city: {
+      type: String,
+      required: true
+    },
+    state: {
+      type: String
+    },
+    country: {
+      type: String,
+      required: true
+    },
+    zipcode: {
+      type: String
     }
-  ],
+  },
   products: {
     type: [String]
   },
@@ -193,14 +194,17 @@ const GuideSchema = new Schema({
     },
     linkedin: {
       type: String
+    },
+    instagram: {
+      type: String
     }
   },
   newsletters: {
-    products: {
+    productNews: {
       type: Boolean,
       default: false
     },
-    website: {
+    websiteNews: {
       type: Boolean,
       default: false
     },
@@ -212,7 +216,7 @@ const GuideSchema = new Schema({
       type: Boolean,
       default: false
     },
-    competitions: {
+    competitionNews: {
       type: Boolean,
       default: false
     }
