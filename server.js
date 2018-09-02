@@ -7,16 +7,28 @@ const passport = require("passport");
 const db = require("./config/keys-dev").mongoURI;
 
 //require api routes
-const bookings = require("./routes/api/bookings");
+//Auth routes
+const pw = require("./routes/api/pw");
+const users = require("./routes/api/users");
+
+//profile routes
+const profiles = require("./routes/api/profiles");
 const contactInfo = require("./routes/api/contactInfo");
 const license = require("./routes/api/license");
 const newsletters = require("./routes/api/newsletters");
+const socialMedia = require("./routes/api/socialMedia");
+
+//booking routes
+const bookings = require("./routes/api/bookings");
+
+//newsfeed routes
 const posts = require("./routes/api/posts");
+
+//product routes
 const products = require("./routes/api/products");
-const profiles = require("./routes/api/profiles");
-const pw = require("./routes/api/pw");
+
+//review routes
 const reviews = require("./routes/api/reviews");
-const users = require("./routes/api/users");
 
 //express environment
 const app = express();
@@ -51,6 +63,7 @@ app.use("/api/profiles", profiles);
 app.use("/api/pw", pw);
 app.use("/api/reviews", reviews);
 app.use("/api/users", users);
+app.use("/api/socialMedia", socialMedia);
 
 //run server
 app.listen(port, () => console.log(`Server running on port ${port}`));

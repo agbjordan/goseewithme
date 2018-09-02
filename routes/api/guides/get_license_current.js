@@ -23,7 +23,7 @@ module.exports = function get_GuidesLicense_current(req, res) {
   guideLicense.then(function(result) {
     //no profiles found
     let r = result.toJSON();
-    if (!guideLicense || result === null) {
+    if (!r.license) {
       let msg = "The Current User has not set up a guide license";
       return res.status(200).json(msg);
     }
