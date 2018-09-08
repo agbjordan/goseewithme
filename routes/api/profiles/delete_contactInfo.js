@@ -1,12 +1,12 @@
 const selectModel = require("../../../functions/selectModel");
 const dbFunctions = require("../../../functions/dbFunctions");
 
-module.exports = function del(req, res) {
+module.exports = delete_ContactInfo = (req, res) => {
   let errors = {};
   const updateSet = new dbFunctions();
-  const dataGroup = "socialMedia";
+  const dataGroup = "contactInfo";
   const userNotFound = "The current user could not be identified";
-  const msg = "The current users social media accounts have been reset";
+  const msg = "The current users contact information has been removed";
 
   //load models depending on current User Role
   let Profile = selectModel(req.user.role);

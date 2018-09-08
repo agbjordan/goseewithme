@@ -3,7 +3,7 @@ const is_Empty = require("../is_Empty");
 const moment = require("moment");
 const flatten = require("flat");
 
-module.exports = function validateGuideLicense(data) {
+module.exports = function validate(data) {
   let errors = {};
   const today = moment().format();
   const todayAsString = today.toString();

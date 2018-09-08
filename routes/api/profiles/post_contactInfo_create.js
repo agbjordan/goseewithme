@@ -1,32 +1,32 @@
-// load dependencies
 const flatten = require("flat");
-const validate = require("../../../validation/profiles/socialMedia");
+const validate = require("../../../validation/profiles/contactInfo");
 const selectModel = require("../../../functions/selectModel");
 const propFunctions = require("../../../functions/propFunctions");
 const dbFunctions = require("../../../functions/dbFunctions");
 
 module.exports = function create(req, res) {
   //default const
-  const { errors, isValid } = validate(req.body);
+  const dataGroup = "contactInfo";
   const db = new dbFunctions();
   const prop = new propFunctions();
-  const dataGroup = "socialMedia";
-  const msg = "The current user profile could not be found";
+  const msg = "The Current User profile could not be found";
+  const { errors, isValid } = validate(req.body);
 
   let profileFields = {
     user: req.user.id,
-    socialMedia: {}
+    contactInfo: {}
   };
 
   let props = [
-    "facebook",
-    "twitter",
-    "youtube",
-    "instagram",
-    "line",
-    "wechat",
-    "linkedin",
-    "whatsapp"
+    "telephone",
+    "mobile",
+    "email",
+    "addressLine01",
+    "addressLine02",
+    "city",
+    "country",
+    "state",
+    "zipcode"
   ];
 
   //validate input data

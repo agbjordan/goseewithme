@@ -5,9 +5,9 @@ module.exports = function get(req, res) {
   let errors = {};
   let Profile = "";
   const user = new userFunctions();
-  const dataGroup = "socialMedia";
+  const dataGroup = "contactInfo";
   const userNotFound = "The current user could not be identified";
-  const msg = "The Current User has not set up their social media accounts";
+  const msg = "The Current User has not set up their contact information";
 
   // User role could not be found
   if (!req.user._id) {
@@ -31,5 +31,6 @@ module.exports = function get(req, res) {
         return res.status(200).json(msg);
       }
       return res.status(200).json(result);
-    });
+    })
+    .catch(err => console.log(err));
 };

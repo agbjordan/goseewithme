@@ -68,5 +68,17 @@ router.delete(
   }
 );
 
+//Route     DELETE /api/socialMedia/delete/:id
+//Desc      Remove the current users socialMedia
+//Access    Private
+router.delete(
+  "/delete/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const delete_SocialMedia = require("./profiles/delete_socialMediaById");
+    res = delete_SocialMedia(req, res);
+  }
+);
+
 //export
 module.exports = router;

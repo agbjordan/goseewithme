@@ -1,31 +1,23 @@
-// load dependencies
 const flatten = require("flat");
-const validateNewsletter = require("../../../validation/profiles/newsletters");
+const validate = require("../../../validation/profiles/newsletters");
+const selectModel = require("../../../functions/selectModel");
+const propFunctions = require("../../../functions/propFunctions");
+const dbFunctions = require("../../../functions/dbFunctions");
 
-module.exports = function post_newsletter_create(req, res) {
+module.exports = function create(req, res) {
   //default const
-  const { errors, isValid } = validateNewsletter(req.body);
+  const dataGroup = "newsletters";
+  const db = new dbFunctions();
+  const prop = new propFunctions();
   const msg = "The current user profile could not be found";
-
-  //Load Models
-  let Profile = "";
-  switch (req.user.role) {
-    case "guide":
-      Profile = require("../../../models/GuideProfiles");
-      break;
-    case "agent":
-      Profile = require("../../../models/AgentProfiles");
-      break;
-    default:
-      Profile = require("../../../models/TravellerProfiles");
-  }
+  const { errors, isValid } = validate(req.body);
 
   let profileFields = {
     user: req.user.id,
     newsletters: {}
   };
 
-  let newsletterProps = [
+  let props = [
     "productNews",
     "websiteNews",
     "agentNews",
@@ -33,47 +25,28 @@ module.exports = function post_newsletter_create(req, res) {
     "competitionNews"
   ];
 
-  const updateAllUndefinedProps = (arr, objNew, bodyObj) => {
-    //updates all undefined props in second level objects
-    //loop through all the body object properties
-    for (var property in arr) {
-      //check property exists in body object
-      if (Object.prototype.hasOwnProperty.call(bodyObj, arr[property])) {
-        //check if body property is undefined
-        if (typeof bodyObj[arr[property]] !== "undefined") {
-          objNew[arr[property]] = bodyObj[arr[property]];
-        }
-      }
-    }
-  };
-
   //validate input data
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
-  //loop through all the body object properties
-  updateAllUndefinedProps(newsletterProps, profileFields.newsletters, req.body);
+  //load models depending on current User Role
+  Profile = selectModel(req.user.role);
 
-  Profile.findOne({ user: req.user.id }, "newsletters")
-    .then(profile => {
-      if (profile) {
-        //UPDATE PROFILE
-        Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: flatten(profileFields) },
-          {
-            projection: "newsletters",
-            new: true,
-            upsert: true,
-            returnNewDocument: true
-          }
-        )
-          .then(profile => res.json(profile))
-          .catch(err => console.log(err));
-      } else {
-        return res.status(404).json(msg);
-      }
-    })
-    .catch(err => console.log(err));
+  //loop through all the body object properties
+  prop.updateAllUndefinedProps({
+    arr: props,
+    objNew: profileFields[dataGroup],
+    bodyObj: req.body
+  });
+
+  //run the switch to find the current profile
+  db.create({
+    model: Profile,
+    userid: req.user._id,
+    objectName: dataGroup,
+    data: flatten(profileFields),
+    res: res,
+    msg: msg
+  });
 };

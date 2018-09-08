@@ -1,20 +1,23 @@
-module.exports = function delete_Newsletter(req, res) {
+const selectModel = require("../../../functions/selectModel");
+const dbFunctions = require("../../../functions/dbFunctions");
+
+module.exports = function del(req, res) {
   let errors = {};
-  let Proile = "";
+  const updateSet = new dbFunctions();
+  const dataGroupName = "newsletters";
   const userNotFound = "The current user could not be identified";
   const msg = "The current users newsletter options have been reset";
 
+  let dataDefaults = {
+    proudctNews: false,
+    websiteNews: false,
+    agentNews: false,
+    guideNews: false,
+    competitionNews: false
+  };
+
   //load models depending on current User Role
-  switch (req.user.role) {
-    case "guide":
-      Profile = require("../../../models/GuideProfiles");
-      break;
-    case "agent":
-      Profile = require("../../../models/AgentProfiles");
-      break;
-    default:
-      Profile = require("../../../models/TravellerProfiles");
-  }
+  let Profile = selectModel(req.user.role);
 
   // User role could not be found
   if (!req.user._id) {
@@ -22,23 +25,13 @@ module.exports = function delete_Newsletter(req, res) {
     return res.status(404).json(errors);
   }
 
-  //find user profile
-  Profile.findOneAndUpdate(
-    { user: req.user._id },
-    {
-      $set: {
-        newsletters: {
-          proudctNews: false,
-          websiteNews: false,
-          agentNews: false,
-          guideNews: false,
-          competitionNews: false
-        }
-      }
-    }
-  )
-    .then(profile => {
-      return res.status(200).json(msg);
-    })
-    .catch(err => console.log(err));
+  //find user profile and set defaults
+  updateSet.set({
+    model: Profile,
+    userid: req.user._id,
+    data: dataDefaults,
+    objectName: dataGroupName,
+    res: res,
+    msg: msg
+  });
 };

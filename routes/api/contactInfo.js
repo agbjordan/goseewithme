@@ -26,7 +26,7 @@ router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const get_GuidesContactInfo_current = require("./guides/get_contactInfo_current");
+    const get_GuidesContactInfo_current = require("./profiles/get_contactInfo_current");
     res = get_GuidesContactInfo_current(req, res);
   }
 );
@@ -47,7 +47,7 @@ router.post(
   "/create",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const post_GuidesContactInfo_create = require("./guides/post_contactInfo_create");
+    const post_GuidesContactInfo_create = require("./profiles/post_contactInfo_create");
     res = post_GuidesContactInfo_create(req, res);
   }
 );
@@ -63,7 +63,7 @@ router.delete(
   "/delete",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const delete_GuidesContactInfo = require("./guides/delete_contactInfo");
+    const delete_GuidesContactInfo = require("./profiles/delete_contactInfo");
     res = delete_GuidesContactInfo(req, res);
   }
 );

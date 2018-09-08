@@ -18,12 +18,21 @@ const router = express.Router();
 
 //USER ROUTES
 //Get Routes
+//Route     GET /api/users/admin/all
+//Route     GET /api/users/admin/current
+//Route     GET /api/users/admin/:id
 //Route     GET /api/users/current
 //Route     GET /api/users/test
 
 //Post Routes
+//Route     POST /api/users/admin
+//Route     POST /api/users/forgotten
 //Route     POST /api/users/login
 //Route     POST /api/users/register
+//Route     POST /api/users/reset
+
+//Delete Routes
+//Route     DELETE /api/users/:id
 
 //////////////////////////
 ////////// GET ///////////

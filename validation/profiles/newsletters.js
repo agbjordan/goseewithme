@@ -3,7 +3,7 @@ const is_Empty = require("../is_Empty");
 const moment = require("moment");
 const flatten = require("flat");
 
-module.exports = function validateGuideNewsletter(data) {
+module.exports = function validate(data) {
   let errors = {};
   const data_flat = flatten(data);
 
@@ -28,13 +28,17 @@ module.exports = function validateGuideNewsletter(data) {
     "competitionNews"
   ];
 
-  newsletters.map((news, i, newsletters) => {
-    if (!is_Empty(data[news])) {
-      if (!validator.isBoolean(data[news])) {
-        errors[news] = "Value not valid: True or False Only";
+  if (Object.keys(data).length === 0) {
+    errors["nodata"] = "No form data was submitted";
+  } else {
+    newsletters.map((news, i, newsletters) => {
+      if (!is_Empty(data[news])) {
+        if (!validator.isBoolean(data[news])) {
+          errors[news] = "Value not valid: True or False Only";
+        }
       }
-    }
-  });
+    });
+  }
 
   return {
     errors: errors,
