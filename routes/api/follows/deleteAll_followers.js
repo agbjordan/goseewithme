@@ -3,25 +3,30 @@ const dbFunctions = require("../../../functions/dbFunctions");
 
 module.exports = get = (req, res) => {
   let errors = {};
-  const getSet = new dbFunctions();
+  const dbSet = new dbFunctions();
   const dataGroup = "follows";
   const userNotFound = "The current user could not be identified";
-  const msg = "The current users following list could not be found";
+  const msg = "All followers have been removed";
+  const followers = [];
 
   // User role could not be found
-  if (!req.user._id) {
+  console.log(req.user);
+
+  if (!req) {
     errors.userNotFound = userNotFound;
     return res.status(404).json(errors);
   }
 
-  //load models depending on current User Role
+  //load models depending on User Role
   let Profile = selectModel(req.user.role);
 
-  //find follows list
-  getSet.get({
+  // //save new array to db
+  dbSet.set({
     model: Profile,
     userid: req.user._id,
     objectName: dataGroup,
-    res: res
+    data: followers,
+    res,
+    msg
   });
 };

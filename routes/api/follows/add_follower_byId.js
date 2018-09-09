@@ -30,7 +30,7 @@ module.exports = get = (req, res) => {
     errors.typeError = typeError;
     return res.status(404).json(errors);
   }
-  if (!validator.isLength(req.params.id, { min: 20, max: 40 })) {
+  if (!validator.isLength(req.params.id, { min: 24, max: 24 })) {
     errors.lengthError = lengthError;
     return res.status(404).json(errors);
   }
