@@ -14,6 +14,8 @@ const users = require("./routes/api/users");
 //profile routes
 const profiles = require("./routes/api/profiles");
 const contactInfo = require("./routes/api/contactInfo");
+const follows = require("./routes/api/follows");
+const languages = require("./routes/api/languages");
 const license = require("./routes/api/license");
 const newsletters = require("./routes/api/newsletters");
 const socialMedia = require("./routes/api/socialMedia");
@@ -35,6 +37,8 @@ const app = express();
 const port = process.env.port || 5000;
 
 //connect to MongoDB
+//deprecation workaround
+mongoose.set("useFindAndModify", false);
 mongoose
   .connect(
     db,
@@ -55,6 +59,8 @@ require("./config/passport.js")(passport);
 //routes
 app.use("/api/bookings", bookings);
 app.use("/api/contactInfo", contactInfo);
+app.use("/api/follows", follows);
+app.use("/api/languages", languages);
 app.use("/api/license", license);
 app.use("/api/newsletters", newsletters);
 app.use("/api/posts", posts);

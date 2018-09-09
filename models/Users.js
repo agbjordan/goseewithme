@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-//fix deprecation warning on findone
-mongoose.set("useFindAndModify", false);
-
 //create schema
 const UserSchema = new Schema({
   name: {

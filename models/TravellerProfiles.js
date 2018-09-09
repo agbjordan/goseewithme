@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("./Users");
 const Schema = mongoose.Schema;
-
-//fix deprecation warning on findone
-mongoose.set("useFindAndModify", false);
 
 //List of Props in Schema
 //  user            // string // required

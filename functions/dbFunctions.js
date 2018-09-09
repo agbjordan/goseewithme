@@ -73,6 +73,16 @@ class dbFunctions {
       .catch(err => console.log(err));
     return r;
   }
+
+  get({ model, userid, objectName, res }) {
+    const r = model
+      .findOne({ user: userid }, objectName)
+      .then(profile => {
+        return res.json(profile);
+      })
+      .catch(err => console.log(err));
+    return r;
+  }
 }
 
 module.exports = dbFunctions;
