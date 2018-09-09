@@ -7,10 +7,8 @@ const router = express.Router();
 //PROFILES ROUTES
 //GET Routes
 //Route     GET /api/language/current
-//Route     GET /api/language/test
 
 //POST Routes
-//Route     GET /api/language/create
 //Route     GET /api/language/add
 
 //DELETE Routes
@@ -32,26 +30,9 @@ router.get(
   }
 );
 
-//Route     GET /api/langauges/test
-//Desc      Test Profiles Route
-//Access    Public
-router.get("/test", (req, res) => res.json({ msg: "Languages Works" }));
-
 //////////////////////////
 ////////// POST //////////
 //////////////////////////
-
-//Route     POST /api/langauges/create
-//Desc      Creates a new set of languages - overriding existing list
-//Access    Private
-router.post(
-  "/create",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    const post = require("./guides/post_languages_create");
-    res = post(req, res);
-  }
-);
 
 //Route     POST /api/langauges/add
 //Desc      Adds to an existing list of languages if language is not alreaady present
