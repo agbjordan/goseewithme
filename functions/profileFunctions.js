@@ -15,7 +15,28 @@ class profileFunctions {
     let r = model
       .findOne({ user: userid }, dataGroup)
       .then(result => {
-        console.log(result);
+        return result;
+      })
+      .catch(err => console.log(err));
+    return r;
+  }
+
+  getLanguages({ userid, model }) {
+    const dataGroup = "languages";
+    let r = model
+      .findOne({ user: userid }, dataGroup)
+      .then(result => {
+        return result;
+      })
+      .catch(err => console.log(err));
+    return r;
+  }
+
+  getSocialMedia({ userid, model }) {
+    const dataGroup = "socialMedia";
+    let r = model
+      .findOne({ user: userid }, dataGroup)
+      .then(result => {
         return result;
       })
       .catch(err => console.log(err));

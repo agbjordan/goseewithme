@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 class userFunctions {
   getByUserID({ userid, model, data }) {
     let r = model
@@ -34,6 +36,22 @@ class userFunctions {
       })
       .catch(err => console.log(err));
     return r;
+  }
+
+  updateLoginStats({ email }) {
+    const dateFormat = "ddd, DD MMM YYYY HH:mm:ss [GMT]";
+    const newlastLogin = moment().format(dateFormat);
+
+    //Update the login details
+    User.findOneAndUpdate(
+      { email },
+      {
+        $set: { lastLogin: newlastLogin },
+        $inc: { totalLogins: 1 }
+      },
+      { upsert: true }
+    ).catch(err => console.log(err));
+    return;
   }
 }
 

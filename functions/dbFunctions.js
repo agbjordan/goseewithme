@@ -41,9 +41,7 @@ class dbFunctions {
           model
             .findOneAndUpdate(
               { user: userid },
-              {
-                $set: data
-              },
+              { $set: data },
               {
                 projection: objectName,
                 new: true,

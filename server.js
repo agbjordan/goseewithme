@@ -6,32 +6,21 @@ const passport = require("passport");
 //require Keys
 const db = require("./config/keys-dev").mongoURI;
 
-//require api routes
-//Auth routes
-const pw = require("./routes/api/pw");
-const users = require("./routes/api/users");
-
-//profile routes
-const profiles = require("./routes/api/profiles");
-const contactInfo = require("./routes/api/contactInfo");
-const follows = require("./routes/api/follows");
-const followers = require("./routes/api/followers");
-const languages = require("./routes/api/languages");
-const license = require("./routes/api/license");
-const newsletters = require("./routes/api/newsletters");
-const socialMedia = require("./routes/api/socialMedia");
-
-//booking routes
+//API routes
 const bookings = require("./routes/api/bookings");
-
-//newsfeed routes
+const contactInfo = require("./routes/api/contactInfo/contactInfo");
+const follows = require("./routes/api/follows/follows");
+const followers = require("./routes/api/followers/followers");
+const guides = require("./routes/api/guides/guides");
+const languages = require("./routes/api/languages/languages");
+const license = require("./routes/api/licenses/licenses");
+const newsletters = require("./routes/api/newsletters/newsletters");
 const posts = require("./routes/api/posts");
-
-//product routes
 const products = require("./routes/api/products");
-
-//review routes
+const password = require("./routes/api/password/password");
 const reviews = require("./routes/api/reviews");
+const socialMedia = require("./routes/api/socialMedia/socialMedia");
+const users = require("./routes/api/users/users");
 
 //express environment
 const app = express();
@@ -54,24 +43,23 @@ app.use(bodyParser.json());
 
 //Passport Middleware
 app.use(passport.initialize());
-//Passport Config File
 require("./config/passport.js")(passport);
 
-//routes
+//API routes
 app.use("/api/bookings", bookings);
 app.use("/api/contactInfo", contactInfo);
 app.use("/api/follows", follows);
 app.use("/api/followers", followers);
+app.use("/api/guides", guides);
 app.use("/api/languages", languages);
-app.use("/api/license", license);
+app.use("/api/licenses", license);
 app.use("/api/newsletters", newsletters);
 app.use("/api/posts", posts);
 app.use("/api/products", products);
-app.use("/api/profiles", profiles);
-app.use("/api/pw", pw);
+app.use("/api/password", password);
 app.use("/api/reviews", reviews);
-app.use("/api/users", users);
 app.use("/api/socialMedia", socialMedia);
+app.use("/api/users", users);
 
 //run server
 app.listen(port, () => console.log(`Server running on port ${port}`));

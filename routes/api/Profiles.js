@@ -46,7 +46,7 @@ router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const get_Profile_current = require("../api/profiles/get_profile_current");
+    const get_Profile_current = require("./guides/get_guide");
     res = get_Profile_current(req, res);
   }
 );
@@ -67,7 +67,7 @@ router.post(
   "/guide/create",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const post_Profile_create = require("../api/guides/post_profile_create");
+    const post_Profile_create = require("../api/guides/post/post_guideProfile_create");
     res = post_Profile_create(req, res);
   }
 );
@@ -83,7 +83,7 @@ router.delete(
   "/delete/current",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const delete_Profile = require("../api/profiles/delete_profile");
+    const delete_Profile = require("./guides/delete_guide");
     res = delete_Profile(req, res);
   }
 );

@@ -1,7 +1,7 @@
 const validator = require("validator");
 const is_Empty = require("./is_Empty");
 
-module.exports = function validateUserLoginInput(data) {
+module.exports = function validate(data) {
   let errors = {};
 
   //turn empty values into strings
@@ -18,7 +18,6 @@ module.exports = function validateUserLoginInput(data) {
   }
 
   //password validation
-
   if (validator.isEmpty(data.password)) {
     errors.password = "Password is required";
   }

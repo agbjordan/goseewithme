@@ -35,7 +35,6 @@ module.exports = function validateUserRegistrationInput(data) {
   }
 
   //password validation
-
   if (!validator.matches(data.password, passwordCheck)) {
     errors.password =
       "Password must contain a least 8 letters, including 1 uppercase and 1 special character";

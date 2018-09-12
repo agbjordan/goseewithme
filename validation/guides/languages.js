@@ -1,6 +1,4 @@
-const validator = require("validator");
 const is_Empty = require("../is_Empty");
-const moment = require("moment");
 const flatten = require("flat");
 
 module.exports = function validate(data) {
