@@ -63,13 +63,12 @@ class dbFunctions {
   }
 
   remove({ model, userid, res, msg }) {
-    const r = model
+    return model
       .findOneAndRemove({ user: userid })
       .then(profile => {
         return res.json(msg);
       })
       .catch(err => console.log(err));
-    return r;
   }
 
   get({ model, userid, objectName, res }) {

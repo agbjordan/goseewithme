@@ -3,8 +3,8 @@ const flatten = require("flat");
 const moment = require("moment");
 
 //models
-const GuideProfile = require("../../../models/GuideProfiles");
-const AgentProfile = require("../../../models/AgentProfiles");
+const ProfileAgents = require("../../../models/AgentProfiles");
+const ProfileGuides = require("../../../models/GuideProfiles");
 
 //functions
 const propFunctions = require("../../../functions/propFunctions");
@@ -12,9 +12,9 @@ const dbFunctions = require("../../../functions/dbFunctions");
 const userFunctions = require("../../../functions/userFunctions");
 
 //validator
-const validate = require("../../../validation/guides/profile");
+const validate = require("../../../validation/agents/profile");
 
-module.exports = function post_Profile_create(req, res) {
+module.exports = function create(req, res) {
   const db = new dbFunctions();
   const propFun = new propFunctions();
   const userFun = new userFunctions();
@@ -34,12 +34,12 @@ module.exports = function post_Profile_create(req, res) {
     "handle",
     "profileImg",
     "bio",
-    "age",
-    "nationality",
-    "gender"
+    "companyName",
+    "website"
   ];
   const contactInfoProps = [
     "telephone",
+    "hotline",
     "mobile",
     "email",
     "addressLine01",
@@ -65,7 +65,7 @@ module.exports = function post_Profile_create(req, res) {
     "guideNews",
     "competitionNews"
   ];
-  const licenseProps = ["licenseID", "licenseAuth", "licenseImg"];
+  const accredProps = ["AccredID", "AccredAuth", "AccredImg"];
 
   //validate input data
   if (!isValid) {
@@ -80,8 +80,8 @@ module.exports = function post_Profile_create(req, res) {
     }
   }
   propFun.updateAllUndefinedProps({
-    arr: licenseProps,
-    objNew: profileFields.license,
+    arr: accredProps,
+    objNew: profileFields.accreditations,
     bodyObj: req.body
   });
   propFun.updateAllUndefinedProps({
@@ -100,19 +100,19 @@ module.exports = function post_Profile_create(req, res) {
     bodyObj: req.body
   });
 
-  //license dates
-  if (typeof req.body.licenseDate !== "undefined") {
-    profileFields.license.licenseDate = moment(
-      req.body.licenseDate,
+  //accred dates
+  if (typeof req.body.accredDate !== "undefined") {
+    profileFields.accreditations.accredDate = moment(
+      req.body.accredDate,
       "DD/MM/YYYY"
     )
       .locale("en")
       .format("ddd, DD MMM YYYY HH:mm:ss [GMT]");
   }
 
-  if (typeof req.body.licenseExpiry !== "undefined") {
-    profileFields.license.licenseExpiry = moment(
-      req.body.licenseExpiry,
+  if (typeof req.body.accredExpiry !== "undefined") {
+    profileFields.accreditations.accredExpiry = moment(
+      req.body.accredExpiry,
       "DD/MM/YYYY"
     )
       .locale("en")
@@ -129,33 +129,38 @@ module.exports = function post_Profile_create(req, res) {
   if (typeof req.body.followers !== "undefined") {
     profileFields.followers = req.body.followers.split(",");
   }
-
-  //languages array
-  if (typeof req.body.languages !== "undefined") {
-    profileFields.languages = JSON.parse(req.body.languages);
+  if (typeof req.body.guidesIDs !== "undefined") {
+    profileFields.guidesIDs = req.body.guidesIDs.split(",");
+  }
+  if (typeof req.body.operateIn !== "undefined") {
+    profileFields.operateIn = req.body.operateIn.split(",");
+  }
+  if (typeof req.body.subUsers !== "undefined") {
+    profileFields.subUsers = req.body.subUsers.split(",");
   }
 
   userFun
     .getByUserID({
       userid: req.user._id,
-      model: GuideProfile
+      model: ProfileAgents,
+      data: "user"
     })
     .then(profile => {
       if (profile) {
         //UPDATE PROFILE
         db.create({
-          model: GuideProfile,
+          model: ProfileAgents,
           userid: req.user._id,
           data: flatten(profileFields),
           res: res
         });
       } else {
         //CREATE PROFILE
-        //Check if handle already exists
+        //Check if handle already exists in Agents
         userFun
           .doesHandleExist({
             handle: profileFields.handle,
-            model: AgentProfile
+            model: ProfileAgents
           })
           .then(result => {
             if (result === true) {
@@ -166,7 +171,7 @@ module.exports = function post_Profile_create(req, res) {
               userFun
                 .doesHandleExist({
                   handle: profileFields.handle,
-                  model: GuideProfile
+                  model: ProfileGuides
                 })
                 .then(result => {
                   if (result === true) {

@@ -24,9 +24,11 @@ const Schema = mongoose.Schema;
 //    whatsapp      // string
 //    linkedin      // string
 //  newsletters     // object
-//    product       // boolean
-//    website       // boolean
-//    competitons   // boolean
+//    productNews   // boolean
+//    websiteNews   // boolean
+//    guideNews     // boolean
+//    agentNews     // boolean
+//    competitonNews// boolean
 //  date            // number // default Date.now
 //  totalLogins     // number // default 1
 //  lastLogin       // number // default Date.now
@@ -37,47 +39,40 @@ const TravellerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users"
   },
-  handle: {
-    type: String,
-    required: true,
-    max: 40
-  },
   profileImg: {
     type: String
   },
-  contactInfo: [
-    {
-      telephone: {
-        type: String,
-        required: true
-      },
-      mobile: {
-        type: String
-      },
-      email: {
-        type: String,
-        required: true
-      },
-      addressLine01: {
-        type: String
-      },
-      addressLine02: {
-        type: String
-      },
-      city: {
-        type: String
-      },
-      state: {
-        type: String
-      },
-      country: {
-        type: String
-      },
-      zipcode: {
-        type: String
-      }
+  contactInfo: {
+    telephone: {
+      type: String,
+      required: true
+    },
+    mobile: {
+      type: String
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    addressLine01: {
+      type: String
+    },
+    addressLine02: {
+      type: String
+    },
+    city: {
+      type: String
+    },
+    state: {
+      type: String
+    },
+    country: {
+      type: String
+    },
+    zipcode: {
+      type: String
     }
-  ],
+  },
   follows: {
     type: [String]
   },
@@ -99,14 +94,17 @@ const TravellerSchema = new Schema({
     },
     linkedin: {
       type: String
+    },
+    instagram: {
+      type: String
     }
   },
   newsletters: {
-    products: {
+    productNews: {
       type: Boolean,
       default: false
     },
-    website: {
+    websiteNews: {
       type: Boolean,
       default: false
     },
@@ -118,7 +116,7 @@ const TravellerSchema = new Schema({
       type: Boolean,
       default: false
     },
-    competitions: {
+    competitionNews: {
       type: Boolean,
       default: false
     }

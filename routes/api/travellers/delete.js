@@ -2,7 +2,7 @@
 const selectModel = require("../../../functions/modelFunctions");
 const dbFunctions = require("../../../functions/dbFunctions");
 
-module.exports = function delet_GuidesProfile(req, res) {
+module.exports = function deleteProfile(req, res) {
   let errors = {};
   const dbSet = new dbFunctions();
   const props = {

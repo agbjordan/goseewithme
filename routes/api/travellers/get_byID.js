@@ -8,7 +8,7 @@ const validator = require("validator");
 module.exports = get = (req, res) => {
   //defaults
   let errors = {};
-  let userRole = "guide";
+  let userRole = "traveller";
   const regex = new RegExp("^[a-zA-Z0-9]*$");
   const userSet = new userFunctions();
   const msg = {

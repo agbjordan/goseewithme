@@ -7,6 +7,7 @@ const passport = require("passport");
 const db = require("./config/keys-dev").mongoURI;
 
 //API routes
+const agents = require("./routes/api/agents/index");
 const bookings = require("./routes/api/bookings");
 const contactInfo = require("./routes/api/contactInfo/contactInfo");
 const follows = require("./routes/api/follows/follows");
@@ -20,6 +21,7 @@ const products = require("./routes/api/products");
 const password = require("./routes/api/password/password");
 const reviews = require("./routes/api/reviews");
 const socialMedia = require("./routes/api/socialMedia/socialMedia");
+const travellers = require("./routes/api/travellers/index");
 const users = require("./routes/api/users/users");
 
 //express environment
@@ -46,6 +48,7 @@ app.use(passport.initialize());
 require("./config/passport.js")(passport);
 
 //API routes
+app.use("/api/agents", agents);
 app.use("/api/bookings", bookings);
 app.use("/api/contactInfo", contactInfo);
 app.use("/api/follows", follows);
@@ -59,6 +62,7 @@ app.use("/api/products", products);
 app.use("/api/password", password);
 app.use("/api/reviews", reviews);
 app.use("/api/socialMedia", socialMedia);
+app.use("/api/travellers", travellers);
 app.use("/api/users", users);
 
 //run server

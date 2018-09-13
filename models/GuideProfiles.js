@@ -47,11 +47,11 @@ mongoose.set("useFindAndModify", false);
 //    linkedin      // string
 //    instagram     // string
 //  newsletters     // object
-//    product       // boolean
-//    website       // boolean
+//    productNews   // boolean
+//    websiteNews   // boolean
 //    guideNews     // boolean
 //    agentNews     // boolean
-//    competitons   // boolean
+//    competitonNews// boolean
 //  date            // number // default Date.now
 //  totalLogins     // number // default 1
 //  lastLogin       // number // default Date.now

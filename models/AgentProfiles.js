@@ -93,60 +93,61 @@ const AgentSchema = new Schema({
         type: Boolean,
         required: true
       },
-      licenseID: {
+      accredID: {
         type: String
       },
-      licenseAuth: {
+      accredAuth: {
         type: String
       },
-      licenseDate: {
+      accredDate: {
         type: Date
       },
-      licenseExpiry: {
+      accredExpiry: {
         type: Date
       },
-      licenseImg: {
+      accredImg: {
         type: String
       }
     }
   ],
-  contactInfo: [
-    {
-      telephone: {
-        type: String,
-        required: true
-      },
-      hotline: {
-        type: String
-      },
-      email: {
-        type: String,
-        required: true
-      },
-      addressLine01: {
-        type: String
-      },
-      addressLine02: {
-        type: String
-      },
-      city: {
-        type: String
-      },
-      state: {
-        type: String
-      },
-      country: {
-        type: String
-      },
-      zipcode: {
-        type: String
-      }
+  contactInfo: {
+    telephone: {
+      type: String,
+      required: true
+    },
+    hotline: {
+      type: String
+    },
+    mobile: {
+      type: String
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    addressLine01: {
+      type: String
+    },
+    addressLine02: {
+      type: String
+    },
+    city: {
+      type: String
+    },
+    state: {
+      type: String
+    },
+    country: {
+      type: String
+    },
+    zipcode: {
+      type: String
     }
-  ],
+  },
   operateIn: {
     type: [String]
   },
-  guides: {
+  guidesIDs: {
     type: [String]
   },
   products: {
@@ -179,11 +180,11 @@ const AgentSchema = new Schema({
     }
   },
   newsletters: {
-    products: {
+    productNews: {
       type: Boolean,
       default: false
     },
-    website: {
+    websiteNews: {
       type: Boolean,
       default: false
     },
@@ -195,7 +196,7 @@ const AgentSchema = new Schema({
       type: Boolean,
       default: false
     },
-    competitions: {
+    competitionNews: {
       type: Boolean,
       default: false
     }
