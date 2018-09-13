@@ -87,28 +87,29 @@ module.exports = function post_Profile_create(req, res) {
     profileFields.follows = req.body.follows.split(",");
   }
 
-  userFun
-    .getByUserID({
-      userid: req.user._id,
-      model: Profile
-    })
-    .then(profile => {
-      if (profile) {
-        //UPDATE PROFILE
-        db.create({
-          model: Profile,
-          userid: req.user._id,
-          data: flatten(profileFields),
-          res: res
-        });
-      } else {
-        //CREATE PROFILE
-        //Save Profile
-        new Profile(flatten(profileFields))
-          .save()
-          .then(profile => res.json(profile))
-          .catch(err => console.log(err));
-      }
-    })
-    .catch(err => console.log(err));
+  let profileIser = userFun.getByUserID({
+    userid: req.user._id,
+    model: Profile
+  });
+
+  profileIser.then(profile => {
+    if (profile) {
+      //UPDATE PROFILE
+      db.create({
+        model: Profile,
+        userid: req.user._id,
+        data: flatten(profileFields),
+        res: res
+      });
+    } else {
+      //CREATE PROFILE
+      //Save Profile
+      new Profile(flatten(profileFields))
+        .save()
+        .then(profile => res.json(profile))
+        .catch(err => console.log(err));
+    }
+  });
+
+  profileIser.catch(err => console.log(err));
 };

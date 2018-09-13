@@ -25,20 +25,21 @@ module.exports = function get_GuidesLicense_current(req, res) {
   //load models depending on current User Role
   let Profile = selectModel(req.user.role);
 
-  user
-    .getByUserID({
-      userid: req.user._id,
-      model: Profile,
-      data: dataGroup
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(200).json(msg.noLicense);
-      }
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      res.status(200).json(msg.noLicense);
-      console.log(err);
-    });
+  let profileUser = user.getByUserID({
+    userid: req.user._id,
+    model: Profile,
+    data: dataGroup
+  });
+
+  profileUser.then(result => {
+    if (!result) {
+      return res.status(200).json(msg.noLicense);
+    }
+    return res.status(200).json(result);
+  });
+
+  profileUser.catch(err => {
+    res.status(200).json(msg.noLicense);
+    console.log(err);
+  });
 };

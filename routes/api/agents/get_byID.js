@@ -8,7 +8,7 @@ const validator = require("validator");
 module.exports = get = (req, res) => {
   //defaults
   let errors = {};
-  let userRole = "guide";
+  let userRole = "agent";
   const regex = new RegExp("^[a-zA-Z0-9]*$");
   const userSet = new userFunctions();
   const msg = {
@@ -41,19 +41,22 @@ module.exports = get = (req, res) => {
   //load models depending on userRole
   let Profile = selectModel(userRole);
 
-  userSet
-    .getByUserID({
-      userid: req.params.id,
-      model: Profile
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(200).json(msg.userNotFound);
-      }
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      console.log(err);
-      return res.status(404).json(msg.userNotFound);
-    });
+  let profileUser = userSet.getByUserID({
+    userid: req.params.id,
+    model: Profile
+  });
+
+  //return promise
+  profileUser.then(result => {
+    if (!result) {
+      return res.status(200).json(msg.listNotFound);
+    }
+    return res.status(200).json(result);
+  });
+
+  //catch errors
+  profileUser.catch(err => {
+    console.log(err);
+    return res.status(404).json(msg.userNotFound);
+  });
 };

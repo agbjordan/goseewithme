@@ -20,20 +20,21 @@ module.exports = function get(req, res) {
   Profile = selectModel(req.user.role);
 
   //run the switch to find the current profile
-  user
-    .getByUserID({
-      userid: req.user._id,
-      model: Profile,
-      data: dataGroup
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(200).json(msg);
-      }
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      res.status(200).json(userNotFound);
-      console.log(err);
-    });
+  let profileUser = user.getByUserID({
+    userid: req.user._id,
+    model: Profile,
+    data: dataGroup
+  });
+
+  profileUser.then(result => {
+    if (!result) {
+      return res.status(200).json(msg);
+    }
+    return res.status(200).json(result);
+  });
+
+  profileUser.catch(err => {
+    res.status(200).json(userNotFound);
+    console.log(err);
+  });
 };

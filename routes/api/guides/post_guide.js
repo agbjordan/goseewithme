@@ -3,8 +3,8 @@ const flatten = require("flat");
 const moment = require("moment");
 
 //models
-const GuideProfile = require("../../../models/GuideProfiles");
-const AgentProfile = require("../../../models/AgentProfiles");
+const ProfileAgents = require("../../../models/AgentProfiles");
+const ProfileGuides = require("../../../models/GuideProfiles");
 
 //functions
 const propFunctions = require("../../../functions/propFunctions");
@@ -135,56 +135,64 @@ module.exports = function post_Profile_create(req, res) {
     profileFields.languages = JSON.parse(req.body.languages);
   }
 
-  userFun
-    .getByUserID({
-      userid: req.user._id,
-      model: GuideProfile
-    })
-    .then(profile => {
-      if (profile) {
-        //UPDATE PROFILE
-        db.create({
-          model: GuideProfile,
-          userid: req.user._id,
-          data: flatten(profileFields),
-          res: res
-        });
-      } else {
-        //CREATE PROFILE
-        //Check if handle already exists
-        userFun
-          .doesHandleExist({
+  let profileUser = userFun.getByUserID({
+    userid: req.user._id,
+    model: ProfileGuides,
+    data: "user"
+  });
+
+  profileUser.then(profile => {
+    if (profile) {
+      //UPDATE PROFILE
+      let updateProfile = ProfileGuides.findOneAndUpdate(
+        { user: req.user._id },
+        { $set: flatten(profileFields) },
+        {
+          new: true,
+          upsert: true,
+          returnNewDocument: true
+        }
+      ).exec();
+      updateProfile.then(profile => {
+        return res.status(200).json(profile);
+      });
+      updateProfile.catch(err => console.log(err));
+    } else {
+      //CREATE PROFILE
+      //Check if handle already exists in Agents
+      let profileAgent = userFun.doesHandleExist({
+        handle: profileFields.handle,
+        model: ProfileAgents
+      });
+
+      profileAgent.then(result => {
+        if (result) {
+          errors.handle = "This handle already exists";
+          res.status(400).json(errors);
+        } else {
+          //Check if handle already exists in guides
+          let profileGuides = userFun.doesHandleExist({
             handle: profileFields.handle,
-            model: AgentProfile
-          })
-          .then(result => {
-            if (result === true) {
+            model: ProfileGuides
+          });
+
+          profileGuides.then(result => {
+            if (result) {
               errors.handle = "This handle already exists";
               res.status(400).json(errors);
             } else {
-              //Check if handle already exists in Agents
-              userFun
-                .doesHandleExist({
-                  handle: profileFields.handle,
-                  model: GuideProfile
-                })
-                .then(result => {
-                  if (result === true) {
-                    errors.handle = "This handle already exists";
-                    res.status(400).json(errors);
-                  } else {
-                    //Save Profile
-                    new ProfileAgents(flatten(profileFields))
-                      .save()
-                      .then(profile => res.json(profile))
-                      .catch(err => console.log(err));
-                  }
-                })
+              //Save Profile
+              new ProfileGuides(flatten(profileFields))
+                .save()
+                .then(profile => res.json(profile))
                 .catch(err => console.log(err));
             }
-          })
-          .catch(err => console.log(err));
-      }
-    })
-    .catch(err => console.log(err));
+          });
+          profileGuides.catch(err => console.log(err));
+        }
+      });
+      profileAgent.catch(err => console.log(err));
+    }
+  });
+  profileUser.catch(err => console.log(err));
 };

@@ -26,21 +26,22 @@ module.exports = function get_GuidesLanguages_current(req, res) {
   //load models depending on current User Role
   let Profile = selectModel(req.user.role);
 
-  user
-    .getByUserID({
-      userid: req.user._id,
-      model: Profile,
-      data: dataGroup
-    })
-    .then(result => {
-      let r = result.toJSON();
-      if (!r[dataGroup]) {
-        return res.status(200).json(msg.noLanguages);
-      }
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      console.log(err);
+  let profileUser = user.getByUserID({
+    userid: req.user._id,
+    model: Profile,
+    data: dataGroup
+  });
+
+  profileUser.then(result => {
+    let r = result.toJSON();
+    if (!r[dataGroup]) {
       return res.status(200).json(msg.noLanguages);
-    });
+    }
+    return res.status(200).json(result);
+  });
+
+  profileUser.catch(err => {
+    console.log(err);
+    return res.status(200).json(msg.noLanguages);
+  });
 };

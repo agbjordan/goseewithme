@@ -41,19 +41,20 @@ module.exports = get = (req, res) => {
   //load models depending on userRole
   let Profile = selectModel(userRole);
 
-  userSet
-    .getByUserID({
-      userid: req.params.id,
-      model: Profile
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(200).json(msg.userNotFound);
-      }
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      console.log(err);
-      return res.status(404).json(msg.userNotFound);
-    });
+  let profileIser = userSet.getByUserID({
+    userid: req.params.id,
+    model: Profile
+  });
+
+  profileIser.then(result => {
+    if (!result) {
+      return res.status(200).json(msg.userNotFound);
+    }
+    return res.status(200).json(result);
+  });
+
+  profileIser.catch(err => {
+    console.log(err);
+    return res.status(404).json(msg.userNotFound);
+  });
 };

@@ -20,19 +20,20 @@ module.exports = function getCurrentProfile(req, res) {
   //load models depending on current User Role
   let Profile = selectModel(req.user.role);
 
-  user
-    .getByUserID({
-      userid: req.user._id,
-      model: Profile
-    })
-    .then(result => {
-      if (!result) {
-        return res.status(200).json(props.msg);
-      }
-      return res.status(200).json(result);
-    })
-    .catch(err => {
-      console.log(err);
-      return res.status(404).json(props.userNotFound);
-    });
+  let profileIser = user.getByUserID({
+    userid: req.user._id,
+    model: Profile
+  });
+
+  profileIser.then(result => {
+    if (!result) {
+      return res.status(200).json(props.msg);
+    }
+    return res.status(200).json(result);
+  });
+
+  profileIser.catch(err => {
+    console.log(err);
+    return res.status(404).json(props.userNotFound);
+  });
 };

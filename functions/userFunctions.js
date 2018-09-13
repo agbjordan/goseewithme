@@ -2,12 +2,7 @@ const moment = require("moment");
 
 class userFunctions {
   getByUserID({ userid, model, data }) {
-    let r = model
-      .findById({ user: userid }, data)
-      .then(results => {
-        return results;
-      })
-      .catch(err => console.log(err));
+    let r = model.findOne({ user: userid }, data).exec();
     return r;
   }
 
@@ -22,14 +17,8 @@ class userFunctions {
   }
 
   doesHandleExist({ handle, model }) {
-    let r = model
-      .findOne({ handle: handle }, "handle", function(err, handleName) {
-        if (err) return handleError(err);
-        if (!handleName) return false;
-        else return true;
-      })
-      .catch(err => console.log(err));
-    return r;
+    let promise = model.findOne({ handle: handle }, "handle").exec();
+    return promise;
   }
 
   updateLoginStats({ email }) {
