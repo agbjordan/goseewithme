@@ -1,3 +1,4 @@
+//dependencies
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -7,22 +8,22 @@ const passport = require("passport");
 const db = require("./config/keys-dev").mongoURI;
 
 //API routes
-const agents = require("./routes/api/agents/index");
+const agents = require("./routes/api/agents");
 const bookings = require("./routes/api/bookings");
-const contactInfo = require("./routes/api/contactInfo/contactInfo");
-const follows = require("./routes/api/follows/follows");
-const followers = require("./routes/api/followers/followers");
-const guides = require("./routes/api/guides/guides");
-const languages = require("./routes/api/languages/languages");
-const license = require("./routes/api/licenses/licenses");
-const newsletters = require("./routes/api/newsletters/newsletters");
-const posts = require("./routes/api/posts/index");
+const contactInfo = require("./routes/api/contactInfo");
+const follows = require("./routes/api/follows");
+const followers = require("./routes/api/followers");
+const guides = require("./routes/api/guides");
+const languages = require("./routes/api/languages");
+const license = require("./routes/api/licenses");
+const newsletters = require("./routes/api/newsletters");
+const posts = require("./routes/api/posts");
 const products = require("./routes/api/products");
-const password = require("./routes/api/password/password");
+const password = require("./routes/api/password");
 const reviews = require("./routes/api/reviews");
-const socialMedia = require("./routes/api/socialMedia/socialMedia");
-const travellers = require("./routes/api/travellers/index");
-const users = require("./routes/api/users/users");
+const socialMedia = require("./routes/api/socialMedia");
+const travellers = require("./routes/api/travellers");
+const users = require("./routes/api/users");
 
 //express environment
 const app = express();

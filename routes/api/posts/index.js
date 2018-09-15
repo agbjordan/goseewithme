@@ -23,7 +23,7 @@ const routePath = "../routes/api/posts";
 /// GET      /u/:id                - all posts from user :id
 /// GET      /u/:id/limit/:limit   - all posts from user :id with limit
 /// POST     /                     - add/edit a posts
-/// POST     /p/:id/comment/              - add/edit a comment
+/// POST     /p/:id/comment/       - add/edit a comment
 /// POST     /p/:id/comment/:cid/like     - like a comment
 /// POST     /p/:id/like           - add/remove a like from :id post
 /// POST     /p/:id/share          - increment share by 1 on :id post
