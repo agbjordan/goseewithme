@@ -19,7 +19,7 @@ module.exports = function get(req, res) {
     return res.status(400).json(errors);
   }
 
-  //get post if it is owned by the current user
+  //get post
   Posts.findOne({ _id: req.params.id })
     .then(post => {
       //Post is there
