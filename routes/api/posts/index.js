@@ -23,9 +23,10 @@ const routePath = "../routes/api/posts";
 /// GET      /u/:id                - all posts from user :id
 /// GET      /u/:id/limit/:limit   - all posts from user :id with limit
 /// POST     /                     - add/edit a posts
-/// POST     /comment/:id          - add/edit a comment
-/// POST     /like/:id             - add/remove a like from :id post
-/// POST     /share/:id            - increment share by 1 on :id post
+/// POST     /p/:id/comment/              - add/edit a comment
+/// POST     /p/:id/comment/:cid/like     - like a comment
+/// POST     /p/:id/like           - add/remove a like from :id post
+/// POST     /p/:id/share          - increment share by 1 on :id post
 /// DELETE   /p/:id/comment/:cid   - delete a comment
 /// DELETE   /p/:id                - delete a post
 
@@ -171,33 +172,43 @@ routerSet.privateRoute({
   incFile: routePath + "/post_Post"
 });
 
-//Route     POST /api/posts/c
+//Route     POST /api/posts/p/:id/comment
 //Desc      Create a new comment
 //Access    Private
 routerSet.privateRoute({
   router,
   routeType: "post",
-  route: "/comment/:id",
+  route: "/p/:id/comment",
   incFile: routePath + "/post_Comment"
 });
 
-//Route     POST /api/p/like:/id
+//Route     POST /api/posts/p/:id/comment/:cid/like
 //Desc      Add or Remove a like
 //Access    Private
 routerSet.privateRoute({
   router,
   routeType: "post",
-  route: "/like/:id",
+  route: "/p/:id/comment/:cid/like",
   incFile: routePath + "/post_Like"
 });
 
-//Route     POST /api/p/share
+//Route     POST /api/posts/p/:id/like
+//Desc      Add or Remove a like
+//Access    Private
+routerSet.privateRoute({
+  router,
+  routeType: "post",
+  route: "/p/:id/like",
+  incFile: routePath + "/post_Like"
+});
+
+//Route     POST /api/posts/p/:id/share
 //Desc      Add a share
 //Access    Private
 routerSet.privateRoute({
   router,
   routeType: "post",
-  route: "/share/:id",
+  route: "/p/:id/share",
   incFile: routePath + "/post_Share"
 });
 
