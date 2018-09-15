@@ -234,7 +234,7 @@ routerSet.privateRoute({
 routerSet.privateRoute({
   router,
   routeType: "delete",
-  route: "/p",
+  route: "/p/:id",
   incFile: routePath + "/delete_Post"
 });
 

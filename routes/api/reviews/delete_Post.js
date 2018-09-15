@@ -1,8 +1,8 @@
 //load models
-const Posts = require("../../../models/Posts");
+const Reviews = require("../../../models/Reviews");
 
 //validation
-const validate = require("../../../validation/posts/deletePost");
+const validate = require("../../../validation/reviews/deletePost");
 
 module.exports = function deletePost(req, res) {
   const { errors, isValid } = validate(req.body);
@@ -17,7 +17,7 @@ module.exports = function deletePost(req, res) {
     return res.status(400).json(errors);
   }
 
-  Posts.findOneAndRemove({ user: req.user._id, _id: req.body.id })
+  Reviews.findOneAndRemove({ user: req.user._id, _id: req.body.id })
     .then(result => {
       return res.status(200).json(msg.postDeleted);
     })
