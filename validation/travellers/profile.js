@@ -1,11 +1,9 @@
 const validator = require("validator");
 const is_Empty = require("../is_Empty");
-const moment = require("moment");
 const flatten = require("flat");
 
 module.exports = function validate(data) {
   let errors = {};
-  const handleCheck = new RegExp("^[a-zA-Z0-9]{2,40}$");
   const telephoneCheck = new RegExp("^[ -+#0-9]{8,20}$");
   const data_flat = flatten(data);
 

@@ -12,6 +12,13 @@ module.exports = function deleteProfile(req, res) {
     msg: "The current users profile has been removed"
   };
 
+  function checkEmpty(e) {
+    if (!e || e === "undefined") {
+      return false;
+    }
+    return true;
+  }
+
   // User role could not be found
   if (!req.user._id) {
     errors.userNotFound = props.userNotFound;
