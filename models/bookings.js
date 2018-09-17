@@ -38,7 +38,7 @@ const BookingsSchema = new Schema({
       required: True
     }
   },
-  optional: {
+  optionalInfo: {
     type: [
       {
         name: {
@@ -80,9 +80,12 @@ const BookingsSchema = new Schema({
     lastDayToCancel: {
       type: Date,
       required: true
+    },
+    lastUpdated: {
+      type: Date
     }
   },
-  purchases: {
+  purchase: {
     items: {
       type: [
         {
@@ -114,6 +117,16 @@ const BookingsSchema = new Schema({
       default: 0
     },
     discountAmount: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    GoSeeFeePercentage: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    GoSeeFeeAmount: {
       type: Number,
       required: true,
       default: 0
