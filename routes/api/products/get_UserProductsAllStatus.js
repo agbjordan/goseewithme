@@ -35,9 +35,14 @@ module.exports = function get(req, res) {
   //run the switch to find the current profile
   const objId = new ObjectId(req.params.id);
 
-  Products.find({ status } {
-    $or: [{ agentId: objId }, { objId: { $in: guideIds } }]
-  })
+  Products.find(
+    { status },
+    {
+      $and: {
+        $or: [{ agentId: objId }, { objId: { $in: guideIds } }]
+      }
+    }
+  )
     .sort({ name })
     .then(Products => {
       if (Products) {
