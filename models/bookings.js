@@ -21,9 +21,9 @@ const BookingsSchema = new Schema({
   },
   traveller: {
     travellerId: {
-      type: String,
-      required: False,
-      Default: 0
+      type: Schema.Types.ObjectId,
+      ref: "travellerProfile",
+      default: 0
     },
     travellerName: {
       type: String,
@@ -63,6 +63,10 @@ const BookingsSchema = new Schema({
     }
   },
   dates: {
+    createdOn: {
+      type: Date,
+      default: Date.now
+    },
     departureDate: {
       type: Date,
       required: true
@@ -70,11 +74,13 @@ const BookingsSchema = new Schema({
     decisionDate: {
       type: Date
     },
-    createdOn: {
-      type: Date,
-      default: Date.now
+    approvalDate: {
+      type: Date
     },
-    cancellationDate: {
+    cancelDate: {
+      type: Date
+    },
+    rejectionDate: {
       type: Date
     },
     lastDayToCancel: {
@@ -150,23 +156,10 @@ const BookingsSchema = new Schema({
       type: Number,
       required: true,
       default: 0
-    }
-  },
-  currency: {
-    productCurrency: {
-      type: Schema.Types.ObjectId,
-      ref: "currencies",
-      required: true
     },
-    paymentCurrency: {
-      type: Schema.Types.ObjectId,
-      ref: "currencies",
-      required: true
-    },
-    exchangeRate: {
-      type: Number,
-      default: 1,
-      required: true
+    transactions: {
+      type: [Object.Type.ObjectId],
+      ref: "transactions"
     }
   },
   notes: {
@@ -187,75 +180,6 @@ const BookingsSchema = new Schema({
         name: {
           type: String,
           required: true
-        }
-      }
-    ]
-  },
-  transactions: {
-    type: [
-      {
-        transactionId: {
-          type: String,
-          required: true
-        },
-        transactionType: {
-          type: String,
-          required: true
-        },
-        refId: {
-          type: string,
-          required: true
-        },
-        transactionDate: {
-          type: Date,
-          default: Date.now
-        },
-        title: {
-          type: Number,
-          required: true
-        },
-        amount: {
-          type: Number,
-          required: true
-        },
-        quantity: {
-          type: Number,
-          default: 1,
-          required: true
-        },
-        currency: {
-          type: Schema.Types.ObjectId,
-          ref: "currencies"
-        },
-        exchangeRate: {
-          type: Number,
-          default: 1
-        },
-        status: {
-          type: String,
-          required: true
-        },
-        notes: {
-          type: [
-            {
-              text: {
-                type: String,
-                required: true
-              },
-              date: {
-                type: Date,
-                default: Date.now
-              },
-              userID: {
-                type: Schema.Types.ObjectId,
-                ref: "users"
-              },
-              name: {
-                type: String,
-                required: true
-              }
-            }
-          ]
         }
       }
     ]

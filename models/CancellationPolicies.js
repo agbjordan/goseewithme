@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //create schema
-const ProductCancellationPoliciesSchema = new Schema({
+const CancellationPoliciesSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -33,7 +33,7 @@ const ProductCancellationPoliciesSchema = new Schema({
   }
 });
 
-module.exports = ProductCancellationPolicies = mongoose.model(
-  "productCancellationPolicy",
-  ProductCancellationPoliciesSchema
+module.exports = CancellationPolicies = mongoose.model(
+  "CancellationPolicy",
+  CancellationPoliciesSchema
 );

@@ -9,7 +9,7 @@ module.exports = function get(req, res) {
 
   //run the switch to find the current profile
   Reviews.find()
-    .sort({ date: -1 })
+    .sort({ name })
     .then(reviews => {
       if (reviews) {
         if (!reviews[0]) {

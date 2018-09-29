@@ -13,15 +13,11 @@ const ProductsSchema = new Schema({
   },
   agentId: {
     type: Schema.Types.ObjectId,
-    ref: "agents"
+    ref: "users"
   },
-  guideId: {
-    type: Schema.Types.ObjectId,
-    ref: "guides"
-  },
-  role: {
+  guideIds: {
     type: [Schema.Types.ObjectId],
-    ref: "userRoles"
+    ref: "users"
   },
   details: {
     summary: {
@@ -30,29 +26,6 @@ const ProductsSchema = new Schema({
     },
     description: {
       type: String
-    },
-    itineray: {
-      type: [
-        {
-          order: {
-            type: Number,
-            default: 0
-          },
-          startTime: {
-            type: Date
-          },
-          endTime: {
-            type: Date
-          },
-          text: {
-            type: String,
-            required: true
-          },
-          image: {
-            type: String
-          }
-        }
-      ]
     },
     highlights: {
       type: [
@@ -69,73 +42,32 @@ const ProductsSchema = new Schema({
           }
         }
       ]
-    },
-    cancellation: {
-      type: Schema.Types.ObjectId,
-      ref: "productCancellationPolicy",
-      required: true
-    },
-    thumbnail: {
-      type: String
-    },
-    hero: {
-      type: String
-    },
-    gallery: {
-      type: [Schema.Types.ObjectId],
-      ref: "productImages"
-    },
-    categories: {
-      type: [Schema.Types.ObjectId],
-      ref: "productCategories"
-    },
-    features: {
-      type: [Schema.Types.ObjectId],
-      ref: "productFeatures"
-    },
-    map: [
-      {
-        title: {
-          type: String,
-          required: true
-        },
-        text: {
-          type: String
-        },
-        latitude: {
-          type: Number
-        },
-        longitude: {
-          type: Number
-        }
-      }
-    ]
-  },
-  location: {
-    continent: {
-      type: String,
-      required: true
-    },
-    continentId: {
-      type: [Schema.Types.ObjectId],
-      required: "continents"
-    },
-    country: {
-      type: String,
-      required: true
-    },
-    countryId: {
-      type: [Schema.Types.ObjectId],
-      required: "countries"
-    },
-    city: {
-      type: String,
-      required: true
-    },
-    cityId: {
-      type: [Schema.Types.ObjectId],
-      required: "cities"
     }
+  },
+  map: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      text: {
+        type: String
+      },
+      latitude: {
+        type: Number
+      },
+      longitude: {
+        type: Number
+      }
+    }
+  ],
+  categories: {
+    type: [Schema.Types.ObjectId],
+    ref: "productCategories"
+  },
+  features: {
+    type: [Schema.Types.ObjectId],
+    ref: "productFeatures"
   },
   reviews: {
     type: [Schema.Types.ObjectId],
@@ -145,56 +77,127 @@ const ProductsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "currencies"
   },
-  items: {
+  lowestPrice: {
+    type: Number
+  },
+  options: {
     type: [
       {
-        itemName: {
+        optionName: {
           type: String,
           required: true
         },
-        min: {
-          type: Number,
-          default: 0
+        optionSummary: {
+          type: String,
+          required: true
         },
-        max: {
-          type: Number,
-          default: 20
+        optionDetails: {
+          type: String,
+          required: true
         },
-        restrictions: {
-          type: String
+        rating: {
+          type: Number
         },
-        price: {
-          type: Number,
-          required: true,
-          default: 0
-        },
-        priceByDate: {
+        itineray: {
           type: [
             {
-              startDate: {
-                type: Date,
-                required: true,
-                default: Date.now
+              order: {
+                type: Number,
+                default: 0
               },
-              endDate: {
-                type: Date,
-                required: true,
-                default: Date.now
+              startTime: {
+                type: Date
+              },
+              endTime: {
+                type: Date
+              },
+              text: {
+                type: String,
+                required: true
+              },
+              image: {
+                type: String
+              }
+            }
+          ]
+        },
+        items: {
+          type: [
+            {
+              itemName: {
+                type: String,
+                required: true
+              },
+              min: {
+                type: Number,
+                default: 0
+              },
+              max: {
+                type: Number,
+                default: 20
+              },
+              restrictions: {
+                type: String
               },
               price: {
                 type: Number,
                 required: true,
                 default: 0
               },
-              blocked: {
-                type: Boolean,
-                default: false
+              priceByDate: {
+                type: [
+                  {
+                    startDate: {
+                      type: Date,
+                      required: true,
+                      default: Date.now
+                    },
+                    endDate: {
+                      type: Date,
+                      required: true,
+                      default: Date.now
+                    },
+                    price: {
+                      type: Number,
+                      required: true,
+                      default: 0
+                    },
+                    blocked: {
+                      type: Boolean,
+                      default: false
+                    }
+                  }
+                ]
               }
             }
           ]
         }
       }
     ]
+  },
+  continent: {
+    type: String,
+    required: true
+  },
+  continentId: {
+    type: [Schema.Types.ObjectId],
+    required: "continents"
+  },
+  country: {
+    type: String,
+    required: true
+  },
+  countryId: {
+    type: [Schema.Types.ObjectId],
+    required: "countries"
+  },
+  city: {
+    type: String,
+    required: true
+  },
+  cityId: {
+    type: [Schema.Types.ObjectId],
+    required: "cities"
   },
   addons: {
     type: [
@@ -225,7 +228,28 @@ const ProductsSchema = new Schema({
       }
     ]
   },
-  date: {
+  cancellationPolicy: {
+    type: Schema.Types.ObjectId,
+    ref: "CancellationPolicy",
+    required: true
+  },
+  images: {
+    thumbnail: {
+      type: String
+    },
+    hero: {
+      type: String
+    },
+    gallery: {
+      type: [Schema.Types.ObjectId],
+      ref: "productImages"
+    }
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now
+  },
+  lastUpdated: {
     type: Date,
     default: Date.now
   },
