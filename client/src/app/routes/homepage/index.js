@@ -1,11 +1,12 @@
-import React from 'react';
-import Page from '../../components/page';
+import React from "react";
+import Page from "../../components/page";
 
-import logo from '../../assets/logo.jpg';
+import AdminHeader from "../../components/Headers/adminHeader";
 
 export default () => (
   <Page id="homepage">
-    <p>Here's our homepage. All are welcome.</p>
-    <img src={logo} alt="Homepage" style={{ width: '400px' }} />
+    <AdminHeader>
+      <h1>This is a new section</h1>
+    </AdminHeader>
   </Page>
 );
