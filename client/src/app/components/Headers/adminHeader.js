@@ -82,19 +82,19 @@ const styles = theme => ({
   drawerHideScrollClose: {
     height: "100%",
     overflowX: "hidden",
-    width: `calc(((${theme.spacing.unit}px) * 10) - 17px)`,
-    minWidth: `calc(((${theme.spacing.unit}px) * 10) - 17px)`,
+    width: `calc(((${theme.spacing.unit}px) * 11.5) - 17px)`,
+    minWidth: `calc(((${theme.spacing.unit}px) * 11.5) - 17px)`,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
     [theme.breakpoints.up("sm")]: {
-      width: `calc(((${theme.spacing.unit}px) * 11.5) - 17px)`,
-      MinWidth: `calc(((${theme.spacing.unit}px) * 11.5) - 17px)`
+      width: `calc(((${theme.spacing.unit}px) * 16) - 17px)`,
+      MinWidth: `calc(((${theme.spacing.unit}px) * 16) - 17px)`
     }
   },
   drawer: {
-    height: "100%",
+    height: "100vh",
     overflowX: "hidden"
   },
   drawerPaper: {
@@ -111,14 +111,15 @@ const styles = theme => ({
   drawerPaperClose: {
     overflowX: "hidden",
     height: "100%",
-    width: theme.spacing.unit * 10,
-    minWidth: theme.spacing.unit * 10,
+    width: theme.spacing.unit * 11.5,
+    minWidth: theme.spacing.unit * 11.5,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 11.5,
+      width: theme.spacing.unit * 16,
+      minWidth: theme.spacing.unit * 16,
       height: "100%",
       overflowX: "hidden"
     }
@@ -126,8 +127,8 @@ const styles = theme => ({
   toolbar: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
-    padding: "0 8px",
+    justifyContent: "flex-start",
+    paddingLeft: theme.spacing.unit * 1.6,
     ...theme.mixins.toolbar
   },
   content: {

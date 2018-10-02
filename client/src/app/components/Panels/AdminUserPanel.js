@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 //components
 import BtnAdd from "../Buttons/Btn_Add_Float";
 import AdminUserTable from "../Tables/AdminUserTable";
+import AdminRegistration from "../Forms/AdminRegistration";
 
 //styles
 const styles = theme => ({
@@ -98,10 +99,12 @@ class AdminUsersPanelDefault extends React.Component {
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction} className={classes.tabContainer}>
+          <TabContainer dir={theme.direction}>
             <AdminUserTable />
           </TabContainer>
-          <TabContainer dir={theme.direction}>Item Two</TabContainer>
+          <TabContainer dir={theme.direction}>
+            <AdminRegistration />
+          </TabContainer>
         </SwipeableViews>
 
         <BtnAdd
