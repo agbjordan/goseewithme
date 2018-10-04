@@ -41,6 +41,7 @@ import InfluencerIcon from "@material-ui/icons/Person";
 
 //default draw width
 const drawerWidth = 240;
+const drawerWidthClosed = 72;
 
 //default styles
 const styles = theme => ({
@@ -49,7 +50,8 @@ const styles = theme => ({
     zIndex: 1,
     overflow: "hidden",
     position: "relative",
-    display: "flex"
+    display: "flex",
+    height: "100%"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -60,7 +62,7 @@ const styles = theme => ({
   },
   appBarShift: {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px + 17px)`,
+    width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -75,33 +77,25 @@ const styles = theme => ({
   },
   drawerHideScroll: {
     height: "100%",
-    overflowX: "hidden",
-    width: `calc(${drawerWidth}px - 17px)`,
-    minWidth: `calc(${drawerWidth}px - 17px)`
+    width: `calc(${drawerWidth}px)`
   },
   drawerHideScrollClose: {
     height: "100%",
-    overflowX: "hidden",
-    width: `calc(((${theme.spacing.unit}px) * 11.5) - 17px)`,
-    minWidth: `calc(((${theme.spacing.unit}px) * 11.5) - 17px)`,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
+    //overflowX: "hidden",
+    width: 0,
     [theme.breakpoints.up("sm")]: {
-      width: `calc(((${theme.spacing.unit}px) * 16) - 17px)`,
-      MinWidth: `calc(((${theme.spacing.unit}px) * 16) - 17px)`
+      width: drawerWidthClosed
     }
   },
   drawer: {
-    height: "100vh",
-    overflowX: "hidden"
+    height: "100%"
+    //overflowX: "hidden"
   },
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
-    overflowX: "hidden",
+    //overflowX: "hidden",
     height: "100%",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
@@ -109,17 +103,15 @@ const styles = theme => ({
     })
   },
   drawerPaperClose: {
-    overflowX: "hidden",
+    //overflowX: "hidden",
     height: "100%",
-    width: theme.spacing.unit * 11.5,
-    minWidth: theme.spacing.unit * 11.5,
+    width: 0,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.enteringScreen
     }),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 16,
-      minWidth: theme.spacing.unit * 16,
+      width: drawerWidthClosed,
       height: "100%",
       overflowX: "hidden"
     }
@@ -133,8 +125,18 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
+    width: "100%",
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    }),
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidthClosed}px - (${
+        theme.spacing.unit
+      }px * 2))`
+    }
   }
 });
 

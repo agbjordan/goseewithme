@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 //material ui
 import { withStyles } from "@material-ui/core/styles";
@@ -15,6 +16,11 @@ import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContentText from "@material-ui/core/DialogContentText";
 //icons
 import CreateIcon from "@material-ui/icons/Create";
 
@@ -49,12 +55,49 @@ const styles = theme => ({
   },
   iconSmall: {
     fontSize: 20
+  },
+  mobilePadding: {
+    [theme.breakpoints.down("md")]: {
+      marginBottom: theme.spacing.unit * 2
+    }
   }
 });
+
+const initialState = {
+  firstname: "",
+  surname: "",
+  email: "",
+  password: "",
+  confirm: "",
+  userRole: "5",
+  customRoles: {
+    bookings: true,
+    products: true,
+    reviews: true,
+    transactions: true,
+    travellers: true,
+    guides: true,
+    agents: true,
+    affiliates: true,
+    influencers: true,
+    administrators: true,
+    settings: false
+  },
+  errors: {
+    firstname: "",
+    surname: "",
+    email: "",
+    password: "",
+    confirm: "",
+    userRole: ""
+  },
+  success: false
+};
 
 export class AdminRegistration extends Component {
   constructor() {
     super();
+
     this.state = {
       firstname: "",
       surname: "",
@@ -82,14 +125,22 @@ export class AdminRegistration extends Component {
         password: "",
         confirm: "",
         userRole: ""
-      }
+      },
+      success: false
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.reset = this.reset.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeToggle = this.onChangeToggle.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
+    this.onClose = this.onClose.bind(this);
     this.isError = this.isError.bind(this);
-    this.Capitalize = this.Capitalize.bind(this);
+    this.capitalise = this.capitalise.bind(this);
+  }
+
+  reset() {
+    this.setState(initialState);
   }
 
   onChangeToggle = event => {
@@ -102,26 +153,71 @@ export class AdminRegistration extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  onSuccess = () => {
+    this.setState(state => ({ success: true, errors: {} }));
+  };
+
+  onClose = () => {
+    this.reset();
+  };
+
   isError = name => {
     if (this.state.errors[name] && this.state.errors[name].trim().length > 0) {
-      console.log(true);
       return true;
     }
     return false;
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-    return alert("submited");
-  };
-
-  Capitalize(str) {
+  capitalise(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
+  onSubmit = event => {
+    event.preventDefault();
+
+    const newAdmin = {
+      firstname: this.state.firstname,
+      surname: this.state.surname,
+      email: this.state.email,
+      password: this.state.password,
+      confirm: this.state.confirm,
+      userRole: this.state.userRole,
+      customRoles: this.state.customRoles
+    };
+
+    axios
+      .post("/api/administrators/register", newAdmin)
+      .then(res => this.onSuccess())
+      .catch(err => this.setState({ errors: err.response.data }));
+  };
 
   render() {
     const { classes } = this.props;
     const { errors, customRoles } = this.state;
+
+    const dialogSuccess = (
+      <Dialog
+        open={this.state.success}
+        onClose={this.onClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Administrator Registered"}
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            A New Administrator has been sucessfully created
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.onClose} color="primary" autoFocus>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
 
     const userRoles = (
       <FormControl component="fieldset">
@@ -178,7 +274,7 @@ export class AdminRegistration extends Component {
                 color="primary"
               />
             }
-            label={this.Capitalize(role)}
+            label={this.capitalise(role)}
           />
         );
       });
@@ -186,15 +282,18 @@ export class AdminRegistration extends Component {
     return (
       <Paper className={classes.root} square elevation={4}>
         <form
+          noValidate
           className={classes.container}
           autoComplete="off"
-          onSubmit={this.handleSubmit}
+          onSubmit={this.onSubmit}
         >
           <Grid container justify="flex-start">
-            <Grid item xs={3} sm={2} md={2} xl={1}>
-              <Typography variant="body2">Name</Typography>
+            <Grid item xs={12} sm={12} md={2} xl={1}>
+              <Typography variant="body2" className={classes.mobilePadding}>
+                Name
+              </Typography>
             </Grid>
-            <Grid item xs={4} sm={5} md={5} xl={6}>
+            <Grid item xs={12} sm={12} md={5} xl={6}>
               <TextField
                 error={this.isError("firstname")}
                 name="firstname"
@@ -211,7 +310,7 @@ export class AdminRegistration extends Component {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={4} sm={5} md={5} xl={6}>
+            <Grid item xs={12} sm={12} md={5} xl={6}>
               <TextField
                 error={this.isError("surname")}
                 name="surname"
@@ -231,8 +330,8 @@ export class AdminRegistration extends Component {
           </Grid>
 
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1} />
-            <Grid item xs={9} sm={10} md={10} xl={11}>
+            <Grid item xs={12} sm={12} md={2} xl={1} />
+            <Grid item xs={12} sm={12} md={10} xl={11}>
               <TextField
                 error={this.isError("email")}
                 name="email"
@@ -253,10 +352,12 @@ export class AdminRegistration extends Component {
           </Grid>
           <Divider className={classes.divider} />
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1}>
-              <Typography variant="body2">Password</Typography>
+            <Grid item xs={12} sm={12} md={2} xl={1}>
+              <Typography variant="body2" className={classes.mobilePadding}>
+                Password
+              </Typography>
             </Grid>
-            <Grid item xs={4} sm={5} md={5} xl={6}>
+            <Grid item xs={12} sm={12} md={5} xl={6}>
               <TextField
                 error={this.isError("password")}
                 name="password"
@@ -276,8 +377,8 @@ export class AdminRegistration extends Component {
             </Grid>
           </Grid>
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1} />
-            <Grid item xs={4} sm={5} md={5} xl={6}>
+            <Grid item xs={12} sm={12} md={2} xl={1} />
+            <Grid item xs={12} sm={12} md={5} xl={6}>
               <TextField
                 error={this.isError("confirm")}
                 name="confirm"
@@ -289,7 +390,7 @@ export class AdminRegistration extends Component {
                 placeholder="**********"
                 className={classes.textField}
                 fullWidth
-                type="confirm"
+                type="password"
                 InputLabelProps={{
                   shrink: true
                 }}
@@ -298,24 +399,26 @@ export class AdminRegistration extends Component {
           </Grid>
           <Divider className={classes.divider} />
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1}>
-              <Typography variant="body2">Roles</Typography>
+            <Grid item xs={12} sm={12} md={2} xl={1}>
+              <Typography variant="body2" className={classes.mobilePadding}>
+                Roles
+              </Typography>
             </Grid>
-            <Grid item xs={9} sm={10} md={10} xl={11}>
+            <Grid item xs={12} sm={12} md={10} xl={11}>
               <Typography variant="body2">Administration Role</Typography>
             </Grid>
           </Grid>
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1} />
-            <Grid item xs={9} sm={10} md={10} xl={11}>
+            <Grid item xs={12} sm={12} md={2} xl={1} />
+            <Grid item xs={12} sm={12} md={10} xl={11}>
               <FormControl component="fieldset">
                 <FormGroup row>{userRoles}</FormGroup>
               </FormControl>
             </Grid>
           </Grid>
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1} />
-            <Grid item xs={9} sm={10} md={10} xl={11}>
+            <Grid item xs={12} sm={12} md={2} xl={1} />
+            <Grid item xs={12} sm={12} md={10} xl={11}>
               <FormControl component="fieldset">
                 <Typography variant="body2">Management Settings</Typography>
                 <FormGroup row>{customRolesList}</FormGroup>
@@ -324,8 +427,8 @@ export class AdminRegistration extends Component {
           </Grid>
           <Divider className={classes.divider} />
           <Grid container justify="flex-start" className={classes.gridPadding}>
-            <Grid item xs={3} sm={2} md={2} xl={1} />
-            <Grid item xs={3} sm={2} md={2} xl={1}>
+            <Grid item xs={12} sm={12} md={2} xl={1} />
+            <Grid item xs={12} sm={12} md={2} xl={1}>
               <Button
                 type="submit"
                 variant="contained"
@@ -339,6 +442,7 @@ export class AdminRegistration extends Component {
             </Grid>
           </Grid>
         </form>
+        {dialogSuccess}
       </Paper>
     );
   }

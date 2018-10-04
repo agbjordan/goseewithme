@@ -29,6 +29,11 @@ const styles = theme => ({
   },
   tableWrapper: {
     overflowX: "auto"
+  },
+  swipeableViews: {
+    width: `calc(100% + ${theme.spacing.unit}px * 4)`,
+    marginLeft: theme.spacing.unit * -2,
+    marginRight: theme.spacing.unit * -2
   }
 });
 
@@ -78,6 +83,8 @@ class AdminUsersPanelDefault extends React.Component {
             onChange={this.handleChangePanel}
             indicatorColor="primary"
             textColor="primary"
+            scrollable
+            scrollButtons="off"
           >
             <Tab label="List All Administrators" />
             <Tab label="Create New Administrator" />
@@ -98,6 +105,7 @@ class AdminUsersPanelDefault extends React.Component {
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
+          className={classes.swipeableViews}
         >
           <TabContainer dir={theme.direction}>
             <AdminUserTable />

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //create schema
-const UserSchema = new Schema({
+const AdministratorsSchema = new Schema({
   firstname: {
     type: String,
     required: true
@@ -83,4 +83,7 @@ const UserSchema = new Schema({
   }
 });
 
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = Administrators = mongoose.model(
+  "administrators",
+  AdministratorsSchema
+);

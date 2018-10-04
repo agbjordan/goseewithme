@@ -8,6 +8,7 @@ const passport = require("passport");
 const db = require("./config/keys-dev").mongoURI;
 
 //API routes
+const administrators = require("./routes/api/administrators");
 const agents = require("./routes/api/agents");
 const bookings = require("./routes/api/bookings");
 const contactInfo = require("./routes/api/contactInfo");
@@ -49,6 +50,7 @@ app.use(passport.initialize());
 require("./config/passport.js")(passport);
 
 //API routes
+app.use("/api/administrators", administrators);
 app.use("/api/agents", agents);
 app.use("/api/bookings", bookings);
 app.use("/api/contactInfo", contactInfo);

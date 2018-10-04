@@ -1,5 +1,5 @@
 const validator = require("validator");
-const is_Empty = require("./is_Empty");
+const is_Empty = require("../is_Empty");
 
 module.exports = function validate(data) {
   let errors = {};
@@ -71,12 +71,16 @@ module.exports = function validate(data) {
     errors.userRole = "Administration Role is required";
   }
 
-  //Admin Roles validation
-  Object.keys(data.customRoles).map((role, i) => {
-    if (!validator.boolean(role)) {
-      errors[role] = "On or Off";
-    }
-  });
+  // //Admin Roles validation
+  // if (data.customRoles) {
+  //   Object.keys(data.customRoles).map(role => {
+  //     if (!validator.toBoolean(role)) {
+  //       errors[role] = "On or Off";
+  //     }
+  //   });
+  // } else {
+  //   errors.customRoles = "At least one role must be selected";
+  // }
 
   return {
     errors: errors,
