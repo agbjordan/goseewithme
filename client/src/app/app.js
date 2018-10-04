@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { withRouter } from "react-router";
 
 // Action creators and helpers
-import { establishCurrentUser } from "../modules/auth";
+//import { establishCurrentUser } from "../reducers/auth";
 import { isServer } from "../store";
 
 import Routes from "./routes";
@@ -13,11 +13,7 @@ import Routes from "./routes";
 // import './app.css';
 
 class App extends Component {
-  componentWillMount() {
-    if (!isServer) {
-      this.props.establishCurrentUser();
-    }
-  }
+  componentWillMount() {}
 
   render() {
     return (
@@ -34,8 +30,7 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ establishCurrentUser }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default withRouter(
   connect(
