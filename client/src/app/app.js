@@ -3,14 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router";
-
-// Action creators and helpers
-//import { establishCurrentUser } from "../reducers/auth";
-import { isServer } from "../store";
-
 import Routes from "./routes";
-
-// import './app.css';
 
 class App extends Component {
   componentWillMount() {}

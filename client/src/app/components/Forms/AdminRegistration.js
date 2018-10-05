@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
+import { connect } from "react-redux";
+
+import { registerAdmin, clearCreateAdmin } from "../../../actions/authActions";
 
 //material ui
 import { withStyles } from "@material-ui/core/styles";
@@ -25,43 +27,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import CreateIcon from "@material-ui/icons/Create";
 
 //styles
-const styles = theme => ({
-  root: {
-    width: "100%",
-    padding: theme.spacing.unit * 3
-  },
-  container: {
-    width: "100%"
-  },
-  textField: {
-    paddingRight: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  },
-  divider: {
-    marginTop: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 3
-  },
-  group: {
-    marginBottom: theme.spacing.unit * 2
-  },
-  switch: {
-    width: "180px"
-  },
-  button: {
-    padding: `1ex 2.5ex 1ex 3ex`
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  iconSmall: {
-    fontSize: 20
-  },
-  mobilePadding: {
-    [theme.breakpoints.down("md")]: {
-      marginBottom: theme.spacing.unit * 2
-    }
-  }
-});
+import styles from "./styles";
 
 const initialState = {
   firstname: "",
@@ -97,79 +63,22 @@ const initialState = {
 export class AdminRegistration extends Component {
   constructor() {
     super();
-
-    this.state = {
-      firstname: "",
-      surname: "",
-      email: "",
-      password: "",
-      confirm: "",
-      userRole: "5",
-      customRoles: {
-        bookings: true,
-        products: true,
-        reviews: true,
-        transactions: true,
-        travellers: true,
-        guides: true,
-        agents: true,
-        affiliates: true,
-        influencers: true,
-        administrators: true,
-        settings: false
-      },
-      errors: {
-        firstname: "",
-        surname: "",
-        email: "",
-        password: "",
-        confirm: "",
-        userRole: ""
-      },
-      success: false
-    };
-
-    this.reset = this.reset.bind(this);
+    this.state = initialState;
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeToggle = this.onChangeToggle.bind(this);
-    this.onSuccess = this.onSuccess.bind(this);
     this.onClose = this.onClose.bind(this);
     this.isError = this.isError.bind(this);
     this.capitalise = this.capitalise.bind(this);
   }
 
-  reset() {
-    this.setState(initialState);
-  }
-
-  onChangeToggle = event => {
-    let roles = this.state.customRoles;
-    roles[event.target.name] = event.target.checked;
-    this.setState({ customRoles: roles });
-  };
-
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  onSuccess = () => {
-    this.setState(state => ({ success: true, errors: {} }));
-  };
-
-  onClose = () => {
-    this.reset();
-  };
-
-  isError = name => {
-    if (this.state.errors[name] && this.state.errors[name].trim().length > 0) {
-      return true;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
-    return false;
-  };
-
-  capitalise(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    if (nextProps.auth) {
+      this.setState({ auth: nextProps.auth });
+    }
   }
 
   onSubmit = event => {
@@ -185,19 +94,43 @@ export class AdminRegistration extends Component {
       customRoles: this.state.customRoles
     };
 
-    axios
-      .post("/api/administrators/register", newAdmin)
-      .then(res => this.onSuccess())
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.registerAdmin(newAdmin);
   };
+
+  onChangeToggle = event => {
+    let roles = this.state.customRoles;
+    roles[event.target.name] = event.target.checked;
+    this.setState({ customRoles: roles });
+  };
+
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  onClose = () => {
+    this.setState(initialState);
+    this.props.clearCreateAdmin();
+  };
+
+  isError = name => {
+    if (this.state.errors[name] && this.state.errors[name].trim().length > 0) {
+      return true;
+    }
+    return false;
+  };
+
+  capitalise(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   render() {
     const { classes } = this.props;
     const { errors, customRoles } = this.state;
+    const { adminCreated } = this.props.auth;
 
     const dialogSuccess = (
       <Dialog
-        open={this.state.success}
+        open={adminCreated}
         onClose={this.onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -449,7 +382,19 @@ export class AdminRegistration extends Component {
 }
 
 AdminRegistration.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  registerAdmin: PropTypes.func.isRequired,
+  clearCreateAdmin: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(AdminRegistration);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerAdmin, clearCreateAdmin }
+)(withStyles(styles, { withTheme: true })(AdminRegistration));

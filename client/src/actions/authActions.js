@@ -1,4 +1,11 @@
-import { SET_CURRENT_USER } from "./types";
+import axios from "axios";
+
+import {
+  SET_CURRENT_USER,
+  CREATE_ADMIN,
+  CLEAR_CREATE_ADMIN,
+  GET_ERRORS
+} from "./types";
 
 export const registerUser = userData => {
   return {
@@ -7,9 +14,26 @@ export const registerUser = userData => {
   };
 };
 
-export const registerAdmin = adminData => {
-  return {
-    type: SET_CURRENT_Admin,
-    payload: adminData
-  };
+export const clearCreateAdmin = () => dispatch => {
+  dispatch({
+    type: CLEAR_CREATE_ADMIN,
+    payload: {}
+  });
+};
+
+export const registerAdmin = adminData => dispatch => {
+  axios
+    .post("/api/administrators/register", adminData)
+    .then(res =>
+      dispatch({
+        type: CREATE_ADMIN,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
