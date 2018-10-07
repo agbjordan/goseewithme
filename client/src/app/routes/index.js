@@ -91,8 +91,23 @@ const Travellers = Loadable({
   modules: ["travellers"]
 });
 
-const Users = Loadable({
-  loader: () => import(/* webpackChunkName: "Users" */ "./admin/Users"),
+const Administrators = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "Administrators" */ "./admin/Administrators"),
+  loading: () => null,
+  modules: ["users"]
+});
+
+const AdministratorsUpdate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "Administrators" */ "./admin/Administrators/update"),
+  loading: () => null,
+  modules: ["users"]
+});
+
+const AdministratorsCreate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "Administrators" */ "./admin/Administrators/create"),
   loading: () => null,
   modules: ["users"]
 });
@@ -113,6 +128,16 @@ export default () => (
     <Route exact path="/admin/settings" component={Settings} />
     <Route exact path="/admin/transactions" component={Transactions} />
     <Route exact path="/admin/travellers" component={Travellers} />
-    <Route exact path="/admin/users" component={Users} />
+    <Route exact path="/admin/administrators" component={Administrators} />
+    <Route
+      exact
+      path="/admin/administrators/create"
+      component={AdministratorsCreate}
+    />
+    <Route
+      exact
+      path="/admin/administrators/update/:id"
+      component={AdministratorsUpdate}
+    />
   </Switch>
 );

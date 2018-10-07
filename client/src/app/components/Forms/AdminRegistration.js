@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import { registerAdmin, clearCreateAdmin } from "../../../actions/authActions";
+//actions
+import { adminRegister } from "../../../actions/adminActions";
 
 //material ui
 import { withStyles } from "@material-ui/core/styles";
@@ -35,7 +37,7 @@ const initialState = {
   email: "",
   password: "",
   confirm: "",
-  userRole: "5",
+  userRole: "Administrator",
   customRoles: {
     bookings: true,
     products: true,
@@ -49,25 +51,17 @@ const initialState = {
     administrators: true,
     settings: false
   },
-  errors: {
-    firstname: "",
-    surname: "",
-    email: "",
-    password: "",
-    confirm: "",
-    userRole: ""
-  },
+  errors: {},
   success: false
 };
 
 export class AdminRegistration extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = initialState;
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeToggle = this.onChangeToggle.bind(this);
-    this.onClose = this.onClose.bind(this);
     this.isError = this.isError.bind(this);
     this.capitalise = this.capitalise.bind(this);
   }
@@ -76,8 +70,9 @@ export class AdminRegistration extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
-    if (nextProps.auth) {
-      this.setState({ auth: nextProps.auth });
+
+    if (nextProps.admin) {
+      this.setState({ admin: nextProps.admin });
     }
   }
 
@@ -94,7 +89,7 @@ export class AdminRegistration extends Component {
       customRoles: this.state.customRoles
     };
 
-    this.props.registerAdmin(newAdmin);
+    this.props.adminRegister(newAdmin);
   };
 
   onChangeToggle = event => {
@@ -105,11 +100,6 @@ export class AdminRegistration extends Component {
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
-  };
-
-  onClose = () => {
-    this.setState(initialState);
-    this.props.clearCreateAdmin();
   };
 
   isError = name => {
@@ -126,11 +116,11 @@ export class AdminRegistration extends Component {
   render() {
     const { classes } = this.props;
     const { errors, customRoles } = this.state;
-    const { adminCreated } = this.props.auth;
+    const { isSuccess } = this.props.admin;
 
     const dialogSuccess = (
       <Dialog
-        open={adminCreated}
+        open={isSuccess}
         onClose={this.onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -145,7 +135,13 @@ export class AdminRegistration extends Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.onClose} color="primary" autoFocus>
+          <Button
+            onClick={this.onClose}
+            color="primary"
+            autoFocus
+            component={Link}
+            to="/admin/administrators"
+          >
             OK
           </Button>
         </DialogActions>
@@ -164,26 +160,35 @@ export class AdminRegistration extends Component {
           onChange={this.onChange}
         >
           <FormControlLabel
-            value="5"
+            value="Administrator"
             className={classes.switch}
             control={
-              <Radio color="primary" checked={this.state.userRole === "5"} />
+              <Radio
+                color="primary"
+                checked={this.state.userRole === "Administrator"}
+              />
             }
             label="Administrator"
           />
           <FormControlLabel
-            value="6"
+            value="Customer Services"
             className={classes.switch}
             control={
-              <Radio color="primary" checked={this.state.userRole === "6"} />
+              <Radio
+                color="primary"
+                checked={this.state.userRole === "Customer Services"}
+              />
             }
             label="Customer Services"
           />
           <FormControlLabel
-            value="7"
+            value="SuperAdmin"
             className={classes.switch}
             control={
-              <Radio color="primary" checked={this.state.userRole === "7"} />
+              <Radio
+                color="primary"
+                checked={this.state.userRole === "SuperAdmin"}
+              />
             }
             label="SuperAdmin"
           />
@@ -382,19 +387,18 @@ export class AdminRegistration extends Component {
 }
 
 AdminRegistration.propTypes = {
+  adminRegister: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  registerAdmin: PropTypes.func.isRequired,
-  clearCreateAdmin: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  admin: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  admin: state.admin
 });
 
 export default connect(
   mapStateToProps,
-  { registerAdmin, clearCreateAdmin }
+  { adminRegister }
 )(withStyles(styles, { withTheme: true })(AdminRegistration));

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
@@ -18,14 +19,15 @@ const styles = theme => ({
 });
 
 function SimpleTooltips(props) {
-  const { classes, tooltip, color, onClick } = props;
+  const { classes, tooltip, color } = props;
   return (
     <Tooltip title={tooltip} placement="left">
       <Button
         variant="fab"
         color={color}
         className={classes.absolute}
-        onClick={onClick}
+        component={Link}
+        to="/admin/administrators/create"
       >
         <AddIcon />
       </Button>

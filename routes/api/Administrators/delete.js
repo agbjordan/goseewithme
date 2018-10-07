@@ -13,22 +13,10 @@ module.exports = function deleteProfile(req, res) {
     msg: "The Administrator has been removed"
   };
 
-  // User role could not be found
-  if (!req.user._id) {
-    errors.userNotFound = props.userNotFound;
-    return res.status(404).json(errors);
-  } else if (!req.params.id) {
-    errors.roleNotFound = props.roleNotFound;
-    return res.status(404).json(errors);
-  } else if (req.params.id.length !== 24) {
-    errors.idNotValid = props.idNotValid;
-    return res.status(404).json(errors);
-  }
-
   //find user profile and remove
   let profileUser = dbSet.remove({
     model: Profile,
-    userid: req.params._id
+    userid: req.params.id
   });
 
   //return promise

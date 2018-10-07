@@ -62,8 +62,12 @@ class dbFunctions {
     return r;
   }
 
-  remove({ model, userid, res, msg }) {
-    return (promise = model.findOneAndRemove({ user: userid }).exec());
+  remove({ model, userid, res }) {
+    const r = model
+      .findOneAndRemove({ _id: userid })
+      .exec()
+      .catch(err => console.log(err));
+    return r;
   }
 
   get({ model, userid, objectName, res }) {

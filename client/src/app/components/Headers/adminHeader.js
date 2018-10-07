@@ -205,7 +205,7 @@ class AdminHeader extends React.Component {
 
     const SectionDashboard = (
       <List>
-        <ListItem button component={Link} to="./">
+        <ListItem button component={Link} to="/admin/">
           <Tooltip title="Dashboard" placement="right">
             <ListItemIcon>
               <DashboardIcon />
@@ -218,7 +218,7 @@ class AdminHeader extends React.Component {
 
     const SectionNotifications = (
       <List>
-        <ListItem button component={Link} to="./notifications">
+        <ListItem button component={Link} to="/admin/notifications">
           <Tooltip title="Notifications" placement="right">
             <ListItemIcon>
               {this.state.notifications <= 0 ? (
@@ -232,7 +232,7 @@ class AdminHeader extends React.Component {
           </Tooltip>
           <ListItemText primary="Notifications" />
         </ListItem>
-        <ListItem button component={Link} to="./inbox">
+        <ListItem button component={Link} to="/admin/inbox">
           <Tooltip title="Inbox" placement="right">
             <ListItemIcon>
               {this.state.inbox <= 0 ? (
@@ -251,7 +251,7 @@ class AdminHeader extends React.Component {
 
     const SectionBookings = (
       <List>
-        <ListItem button component={Link} to="./bookings">
+        <ListItem button component={Link} to="/admin/bookings">
           <Tooltip title="Bookings" placement="right">
             <ListItemIcon>
               {this.state.bookings <= 0 ? (
@@ -265,7 +265,7 @@ class AdminHeader extends React.Component {
           </Tooltip>
           <ListItemText primary="Bookings" />
         </ListItem>
-        <ListItem button component={Link} to="./products">
+        <ListItem button component={Link} to="/admin/products">
           <Tooltip title="Products" placement="right">
             <ListItemIcon>
               <ViewListIcon />
@@ -273,7 +273,7 @@ class AdminHeader extends React.Component {
           </Tooltip>
           <ListItemText primary="Products" />
         </ListItem>
-        <ListItem button component={Link} to="./reviews">
+        <ListItem button component={Link} to="/admin/reviews">
           <Tooltip title="Reivews" placement="right">
             <ListItemIcon>
               {this.state.reviews <= 0 ? (
@@ -287,7 +287,7 @@ class AdminHeader extends React.Component {
           </Tooltip>
           <ListItemText primary="Reviews" />
         </ListItem>
-        <ListItem button component={Link} to="./transactions">
+        <ListItem button component={Link} to="/admin/transactions">
           <Tooltip title="Transactions" placement="right">
             <ListItemIcon>
               {this.state.transactions <= 0 ? (
@@ -307,7 +307,7 @@ class AdminHeader extends React.Component {
     const SectionAccounts = (
       <React.Fragment>
         <List>
-          <ListItem button component={Link} to="./travellers">
+          <ListItem button component={Link} to="/admin/travellers">
             <Tooltip title="Travellers" placement="right">
               <ListItemIcon>
                 <TravellerIcon />
@@ -315,7 +315,7 @@ class AdminHeader extends React.Component {
             </Tooltip>
             <ListItemText primary="Travellers" />
           </ListItem>
-          <ListItem button component={Link} to="./guides">
+          <ListItem button component={Link} to="/admin/guides">
             <Tooltip title="Guides" placement="right">
               <ListItemIcon>
                 <GuideIcon />
@@ -323,7 +323,7 @@ class AdminHeader extends React.Component {
             </Tooltip>
             <ListItemText primary="Guides" />
           </ListItem>
-          <ListItem button component={Link} to="./agents">
+          <ListItem button component={Link} to="/admin/agents">
             <Tooltip title="Agents" placement="right">
               <ListItemIcon>
                 <AgentIcon />
@@ -334,7 +334,7 @@ class AdminHeader extends React.Component {
         </List>
         <Divider />
         <List>
-          <ListItem button component={Link} to="./affiliates">
+          <ListItem button component={Link} to="/admin/affiliates">
             <Tooltip title="Affiliates" placement="right">
               <ListItemIcon>
                 <AffiliateIcon />
@@ -342,7 +342,7 @@ class AdminHeader extends React.Component {
             </Tooltip>
             <ListItemText primary="Affiliates" />
           </ListItem>
-          <ListItem button component={Link} to="./influencers">
+          <ListItem button component={Link} to="/admin/influencers">
             <Tooltip title="Influencers" placement="right">
               <ListItemIcon>
                 <InfluencerIcon />
@@ -356,15 +356,15 @@ class AdminHeader extends React.Component {
 
     const SectionPersonal = (
       <List>
-        <ListItem button component={Link} to="./users">
-          <Tooltip title="Users" placement="right">
+        <ListItem button component={Link} to="/admin/administrators">
+          <Tooltip title="Administrators" placement="right">
             <ListItemIcon>
               <UsersIcon />
             </ListItemIcon>
           </Tooltip>
-          <ListItemText primary="Users" />
+          <ListItemText primary="Administrators" />
         </ListItem>
-        <ListItem button component={Link} to="./settings">
+        <ListItem button component={Link} to="/admin/settings">
           <Tooltip title="Settings" placement="right">
             <ListItemIcon>
               <SettingsIcon />

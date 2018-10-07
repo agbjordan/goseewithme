@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
+import { Link } from "react-router-dom";
 
 //material ui
 import { withStyles } from "@material-ui/core/styles";
@@ -8,10 +9,11 @@ import AppBar from "@material-ui/core/AppBar";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
 
 //components
 import BtnAdd from "../Buttons/Btn_Add_Float";
-import AdminUserTable from "../Tables/AdminUserTable/AdminUserTable";
+import AdminUpdate from "../Forms/AdminUpdate";
 
 //styles
 const styles = theme => ({
@@ -53,10 +55,16 @@ const TabContainer = ({ children, dir }) => {
 
 //default class
 class AdminUsersPanelDefault extends React.Component {
+  state = {
+    value: 0
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   render() {
     const { classes, theme } = this.props;
-
-    // update state based on if ID is present
 
     const NavBar = (
       <div className={classes.appBar}>
@@ -67,8 +75,16 @@ class AdminUsersPanelDefault extends React.Component {
               variant="button"
               color="primary"
             >
-              LIST OF ADMINISTRATORS
+              UPDATE AN ADMINISTRATOR
             </Typography>
+            <Button
+              label="BACK TO LIST"
+              value={1}
+              component={Link}
+              to="/admin/administrators"
+            >
+              BACK TO LIST
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
@@ -81,14 +97,12 @@ class AdminUsersPanelDefault extends React.Component {
         </Typography>
         <Divider />
         {NavBar}
-
         <SwipeableViews className={classes.swipeableViews}>
           <TabContainer dir={theme.direction}>
-            <AdminUserTable />
+            <AdminUpdate />
           </TabContainer>
         </SwipeableViews>
-
-        <BtnAdd color="primary" tooltip="Create Administrator" />
+        <BtnAdd color="primary" tooltip="Update Administrator" />
       </React.Fragment>
     );
   }

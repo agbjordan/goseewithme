@@ -1,16 +1,8 @@
-import {
-  SET_CURRENT_USER,
-  SET_CURRENT_ADMIN,
-  CREATE_ADMIN,
-  CLEAR_CREATE_ADMIN
-} from "../actions/types";
+import { SET_CURRENT_USER } from "../actions/types";
 
 const initialState = {
   isAuthenticated: false,
-  userCurrent: {},
-  userCreated: {},
-  adminCurrent: {},
-  adminCreated: false
+  user: {}
 };
 
 export default (state = initialState, action) => {
@@ -19,24 +11,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         userCurrent: action.payload
-      };
-
-    case SET_CURRENT_ADMIN:
-      return {
-        ...state,
-        adminCurrent: action.payload
-      };
-
-    case CREATE_ADMIN:
-      return {
-        ...state,
-        adminCreated: true
-      };
-
-    case CLEAR_CREATE_ADMIN:
-      return {
-        ...state,
-        adminCreated: false
       };
 
     default:

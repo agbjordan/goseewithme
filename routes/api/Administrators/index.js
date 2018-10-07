@@ -20,6 +20,26 @@ router.get("/", passport.authenticate("jwt", { session: false }), (req, res) =>
   })
 );
 
+//Route     POST /api/administrators/get
+//Desc      Get All Administrators
+//Access    Public
+routerSet.publicRoute({
+  router,
+  routeType: "get",
+  route: "/get",
+  incFile: "../routes/api/administrators/get"
+});
+
+//Route     POST /api/administrators/get/id
+//Desc      Get specific Administrators by id
+//Access    Public
+routerSet.publicRoute({
+  router,
+  routeType: "get",
+  route: "/get/:id",
+  incFile: "../routes/api/administrators/getById"
+});
+
 //////////////////////////
 ////////// POST //////////
 //////////////////////////
@@ -44,10 +64,20 @@ routerSet.publicRoute({
   incFile: "../routes/api/administrators/register"
 });
 
+//Route     POST /api/administrators/update
+//Desc      Update a User
+//Access    Public
+routerSet.publicRoute({
+  router,
+  routeType: "post",
+  route: "/update",
+  incFile: "../routes/api/administrators/update"
+});
+
 //Route     DELETE /api/administrators/register
 //Desc      Delete a User
 //Access    Public
-routerSet.privateRoute({
+routerSet.publicRoute({
   router,
   routeType: "delete",
   route: "/delete/:id",
