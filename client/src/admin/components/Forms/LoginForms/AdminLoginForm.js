@@ -1,20 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 //actions
-import { authAdminLogin } from '../../../../actions/authActions';
+import { adminLogin, redirect } from '../../../../actions/authActions';
 
 //material ui
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 //icons
 import CreateIcon from '@material-ui/icons/CallMade';
 
@@ -23,7 +22,12 @@ import styles from './styles';
 class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { email: '', password: '', errors: {}, success: false };
+		this.state = {
+			email: '',
+			password: '',
+			errors: {},
+			success: false,
+		};
 
 		this.onChange = this.onChange.bind(this);
 		this.onError = this.onError.bind(this);
@@ -31,12 +35,12 @@ class LoginForm extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.errors) {
-			this.setState({ errors: nextProps.errors });
+		if (nextProps.auth.adminIsAuthenticated === true) {
+			this.props.redirect('/admin');
 		}
 
-		if (nextProps.admin) {
-			this.setState({ admin: nextProps.admin });
+		if (nextProps.errors) {
+			this.setState({ errors: nextProps.errors });
 		}
 	}
 
@@ -56,6 +60,13 @@ class LoginForm extends React.Component {
 
 	onSubmit = e => {
 		e.preventDefault();
+
+		const newLogin = {
+			email: this.state.email,
+			password: this.state.password,
+		};
+
+		this.props.adminLogin(newLogin);
 	};
 
 	render() {
@@ -63,13 +74,14 @@ class LoginForm extends React.Component {
 		const { errors } = this.state;
 
 		const LoginForm = (
-			<Paper>
+			<Paper className={classes.root}>
 				<Typography variant="title" color="inherit" noWrap>
 					Administration Login
 				</Typography>
-				<form onSubmit={this.onSubmit}>
+				<Divider className={classes.divider} />
+				<form onSubmit={this.onSubmit} noValidate>
 					<Grid container justify="flex-start">
-						<Grid item xs={12} sm={12} md={2} xl={1}>
+						<Grid item xs={12} sm={12} md={4}>
 							<Typography
 								variant="body2"
 								className={classes.mobilePadding}
@@ -77,9 +89,9 @@ class LoginForm extends React.Component {
 								Email Address
 							</Typography>
 						</Grid>
-						<Grid item xs={12} sm={12} md={5} xl={6}>
+						<Grid item xs={12} sm={12} md={8}>
 							<TextField
-								error={this.isError('email')}
+								error={this.onError('email')}
 								name="email"
 								id="email"
 								label="Email Address"
@@ -93,7 +105,7 @@ class LoginForm extends React.Component {
 								InputLabelProps={{ shrink: true }}
 							/>
 						</Grid>
-						<Grid item xs={12} sm={12} md={2} xl={1}>
+						<Grid item xs={12} sm={12} md={4}>
 							<Typography
 								variant="body2"
 								className={classes.mobilePadding}
@@ -101,9 +113,9 @@ class LoginForm extends React.Component {
 								Password
 							</Typography>
 						</Grid>
-						<Grid item xs={12} sm={12} md={5} xl={6}>
+						<Grid item xs={12} sm={12} md={8}>
 							<TextField
-								error={this.isError('password')}
+								error={this.onError('password')}
 								name="password"
 								id="password"
 								label="Password"
@@ -117,25 +129,18 @@ class LoginForm extends React.Component {
 								InputLabelProps={{ shrink: true }}
 							/>
 						</Grid>
-						<Divider className={classes.divider} />
-						<Grid
-							container
-							justify="flex-start"
-							className={classes.gridPadding}
-						>
-							<Grid item xs={12} sm={12} md={2} xl={1} />
-							<Grid item xs={12} sm={12} md={2} xl={1}>
-								<Button
-									type="submit"
-									variant="contained"
-									size="small"
-									className={classes.button}
-									color="secondary"
-								>
-									Create
-									<CreateIcon className={classes.rightIcon} />
-								</Button>
-							</Grid>
+						<Grid item xs={12} sm={12} md={4} />
+						<Grid item xs={12} sm={12} md={8}>
+							<Button
+								type="submit"
+								variant="contained"
+								size="small"
+								className={classes.button}
+								color="secondary"
+							>
+								Login
+								<CreateIcon className={classes.rightIcon} />
+							</Button>
 						</Grid>
 					</Grid>
 				</form>
@@ -151,19 +156,20 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-	classes: PropTypes.object.isRequired,
-	theme: PropTypes.object.isRequired,
-	errors: PropTypes.object.isRequired,
+	adminLogin: PropTypes.func.isRequired,
+	redirect: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
-	adminAdminLogin: PropTypes.func.isRequired,
+	classes: PropTypes.object.isRequired,
+	errors: PropTypes.object.isRequired,
+	theme: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-	errors: state.errors,
 	auth: state.auth,
+	errors: state.errors,
 });
 
 export default connect(
 	mapStateToProps,
-	{ authAdminLogin }
+	{ adminLogin, redirect }
 )(withStyles(styles, { withTheme: true })(LoginForm));

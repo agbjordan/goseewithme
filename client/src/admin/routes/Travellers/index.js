@@ -2,7 +2,7 @@ import React from 'react';
 import Page from '../../components/page';
 
 //components
-import AdminHeader from '../../components/Headers/adminHeader';
+import AdminHeader from '../../components/Headers/AdminHeader/adminHeader';
 import TravellerPanel from '../../components/Panels/Travellers/TravellersPanel';
 
 export default Props => (

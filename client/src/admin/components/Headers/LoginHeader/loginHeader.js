@@ -10,31 +10,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-//default styles
-const styles = theme => ({
-	root: {
-		flexGrow: 1,
-		zIndex: 1,
-		position: 'relative',
-		display: 'flex',
-		height: '100%',
-	},
-	appBar: {
-		zIndex: theme.zIndex.drawer + 1,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen,
-		}),
-	},
-	menuButton: {
-		marginLeft: 12,
-		marginRight: 36,
-	},
-});
+//styles
+import styles from './styles';
 
 class LoginHeader extends React.Component {
 	render() {
-		const { classes } = this.props;
+		const { classes, children } = this.props;
 
 		const HeaderBar = (
 			<AppBar position="absolute" className={classes.appBar}>
@@ -56,6 +37,7 @@ class LoginHeader extends React.Component {
 		return (
 			<CssBaseline>
 				<div className={classes.root}>{HeaderBar}</div>
+				<main className={classes.content}>{children}</main>
 			</CssBaseline>
 		);
 	}

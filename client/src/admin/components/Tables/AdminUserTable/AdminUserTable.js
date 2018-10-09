@@ -346,7 +346,6 @@ class AdminUserTable extends React.Component {
 		let AdminTable;
 		if (admins === null || loading === true) {
 			AdminTable = <Spinner />;
-			console.log('loading');
 		} else {
 			AdminTable = AdminUserTable;
 		}

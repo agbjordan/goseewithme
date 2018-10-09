@@ -1,11 +1,11 @@
 //default styles
 const styles = theme => ({
 	root: {
-		flexGrow: 1,
-		zIndex: 1,
-		position: 'relative',
-		display: 'flex',
-		height: '100%',
+		position: 'absolute',
+		left: '50%',
+		top: '50%',
+		transform: 'translate(-50%, -50%)',
+		padding: theme.spacing.unit * 3,
 	},
 	container: {
 		width: '100%',
@@ -15,8 +15,14 @@ const styles = theme => ({
 		marginBottom: theme.spacing.unit * 3,
 	},
 	loginForm: {
-		margin: 'auto',
 		maxWidth: 500,
+	},
+	button: {
+		marginTop: theme.spacing.unit * 2,
+		padding: `1ex 2.5ex 1ex 3ex`,
+	},
+	rightIcon: {
+		marginLeft: theme.spacing.unit,
 	},
 	textField: {
 		paddingRight: theme.spacing.unit * 2,

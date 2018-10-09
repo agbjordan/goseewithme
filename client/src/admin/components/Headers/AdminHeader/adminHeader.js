@@ -1,19 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
+//actions
+import { adminLogout } from '../../../../actions/authActions';
 
 //material ui
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -22,123 +24,29 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 //icons
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import MailIcon from '@material-ui/icons/Mail';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import CardTravelIcon from '@material-ui/icons/CardTravel';
-import ViewListIcon from '@material-ui/icons/ViewList';
-import ReviewIcon from '@material-ui/icons/Stars';
-import TransactionIcon from '@material-ui/icons/MonetizationOn';
-import UsersIcon from '@material-ui/icons/SupervisedUserCircle';
-import SettingsIcon from '@material-ui/icons/Settings';
-import AgentIcon from '@material-ui/icons/AssignmentInd';
-import GuideIcon from '@material-ui/icons/Face';
-import TravellerIcon from '@material-ui/icons/SentimentVerySatisfied';
 import AffiliateIcon from '@material-ui/icons/BusinessCenter';
+import AgentIcon from '@material-ui/icons/AssignmentInd';
+import CardTravelIcon from '@material-ui/icons/CardTravel';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
+import GuideIcon from '@material-ui/icons/Face';
 import InfluencerIcon from '@material-ui/icons/Person';
-
-//default draw width
-const drawerWidth = 240;
-const drawerWidthClosed = 72;
+import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ReviewIcon from '@material-ui/icons/Stars';
+import SettingsIcon from '@material-ui/icons/Settings';
+import TransactionIcon from '@material-ui/icons/MonetizationOn';
+import TravellerIcon from '@material-ui/icons/SentimentVerySatisfied';
+import UsersIcon from '@material-ui/icons/SupervisedUserCircle';
+import ViewListIcon from '@material-ui/icons/ViewList';
 
 //default styles
-const styles = theme => ({
-	root: {
-		flexGrow: 1,
-		zIndex: 1,
-		overflow: 'hidden',
-		position: 'relative',
-		display: 'flex',
-		height: '100%',
-	},
-	appBar: {
-		zIndex: theme.zIndex.drawer + 1,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.leavingScreen,
-		}),
-	},
-	appBarShift: {
-		marginLeft: drawerWidth,
-		width: `calc(100% - ${drawerWidth}px)`,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	},
-	menuButton: {
-		marginLeft: 12,
-		marginRight: 36,
-	},
-	hide: {
-		display: 'none',
-	},
-	drawerHideScroll: {
-		height: '100%',
-		width: `calc(${drawerWidth}px)`,
-	},
-	drawerHideScrollClose: {
-		height: '100%',
-		//overflowX: "hidden",
-		width: 0,
-		[theme.breakpoints.up('sm')]: {
-			width: drawerWidthClosed,
-		},
-	},
-	drawer: {
-		height: '100%',
-		//overflowX: "hidden"
-	},
-	drawerPaper: {
-		position: 'relative',
-		whiteSpace: 'nowrap',
-		width: drawerWidth,
-		//overflowX: "hidden",
-		height: '100%',
-		transition: theme.transitions.create('width', {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	},
-	drawerPaperClose: {
-		//overflowX: "hidden",
-		height: '100%',
-		width: 0,
-		transition: theme.transitions.create('width', {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-		[theme.breakpoints.up('sm')]: {
-			width: drawerWidthClosed,
-			height: '100%',
-			overflowX: 'hidden',
-		},
-	},
-	toolbar: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		paddingLeft: theme.spacing.unit * 1.6,
-		...theme.mixins.toolbar,
-	},
-	content: {
-		flexGrow: 1,
-		width: '100%',
-		backgroundColor: theme.palette.background.default,
-		padding: theme.spacing.unit * 3,
-		transition: theme.transitions.create(['width', 'margin'], {
-			easing: theme.transitions.easing.sharp,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-		[theme.breakpoints.up('sm')]: {
-			width: `calc(100% - ${drawerWidthClosed}px - (${
-				theme.spacing.unit
-			}px * 2))`,
-		},
-	},
-});
+import styles from './styles';
 
 class AdminHeader extends React.Component {
 	constructor(props) {
@@ -153,6 +61,12 @@ class AdminHeader extends React.Component {
 		};
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.auth) {
+			this.setState({ auth: nextProps.auth });
+		}
+	}
+
 	handleDrawerOpen = () => {
 		this.setState({ open: true });
 	};
@@ -161,8 +75,13 @@ class AdminHeader extends React.Component {
 		this.setState({ open: false });
 	};
 
+	handleLogout = async () => {
+		await this.props.adminLogout();
+	};
+
 	render() {
 		const { classes, theme, children } = this.props;
+		const { adminIsAuthenticated } = this.props.auth;
 
 		const HeaderBar = (
 			<AppBar
@@ -184,9 +103,31 @@ class AdminHeader extends React.Component {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="title" color="inherit" noWrap>
+					<Typography
+						variant="title"
+						color="inherit"
+						noWrap
+						className={classes.grow}
+					>
 						Administration
 					</Typography>
+					{adminIsAuthenticated ? (
+						<Button
+							type="submit"
+							size="small"
+							className={classNames(classes.btn_logout)}
+							onClick={this.handleLogout}
+						>
+							Logout
+							{'  '}
+							<LogoutIcon
+								className={classNames(
+									classes.rightIcon,
+									classes.icon_logout
+								)}
+							/>
+						</Button>
+					) : null}
 				</Toolbar>
 			</AppBar>
 		);
@@ -435,8 +376,17 @@ class AdminHeader extends React.Component {
 }
 
 AdminHeader.propTypes = {
+	auth: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,
+	adminLogout: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(AdminHeader);
+const mapStateToProps = state => ({
+	auth: state.auth,
+});
+
+export default connect(
+	mapStateToProps,
+	{ adminLogout }
+)(withStyles(styles, { withTheme: true })(AdminHeader));
