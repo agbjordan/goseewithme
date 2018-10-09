@@ -1,39 +1,15 @@
 //functions
-const selectModel = require("../../../functions/modelFunctions");
-const userFunctions = require("../../../functions/userFunctions");
+const Traveller = require('../../../models/Users');
 
-module.exports = function getCurrentProfile(req, res) {
-  let errors = {};
-  const user = new userFunctions();
-  const props = {
-    roleNotFound: "The current users role could not be identified",
-    userNotFound: "The current user could not be identified",
-    msg: "The current user has not set up a profile"
-  };
+module.exports = function getAllTravellers(req, res) {
+	let errors = {};
 
-  // User role could not be found
-  if (!req.user.role) {
-    errors.roleNotFound = props.roleNotFound;
-    return res.status(404).json(errors);
-  }
-
-  //load models depending on current User Role
-  let Profile = selectModel(req.user.role);
-
-  let profileIser = user.getByUserID({
-    userid: req.user._id,
-    model: Profile
-  });
-
-  profileIser.then(result => {
-    if (!result) {
-      return res.status(200).json(props.msg);
-    }
-    return res.status(200).json(result);
-  });
-
-  profileIser.catch(err => {
-    console.log(err);
-    return res.status(404).json(props.userNotFound);
-  });
+	Traveller.find({ role: 'traveller' })
+		.sort('name')
+		.then(result => {
+			return res.status(200).json(result);
+		})
+		.catch(err => {
+			return res.status(404).json(err.response.data);
+		});
 };

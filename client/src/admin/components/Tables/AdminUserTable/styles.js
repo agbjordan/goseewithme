@@ -34,7 +34,7 @@ const styles = theme => ({
 		paddingRight: 25,
 	},
 	cellAction: {
-		minWidth: 50,
+		width: 280,
 		paddingLeft: 15,
 		paddingRight: 0,
 	},

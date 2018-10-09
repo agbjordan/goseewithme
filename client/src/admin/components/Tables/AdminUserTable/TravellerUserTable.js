@@ -1,38 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Spinner from '../../Spinner';
 
 import {
-	travellerGetAll,
 	redirect,
 	travellerClear,
 	travellerDelete,
+	travellerGetAll,
 } from '../../../../actions/travellerActions';
 
 //material ui
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import TableRow from '@material-ui/core/TableRow';
 //icons
+import CardTravelIcon from '@material-ui/icons/CardTravel';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
-import CardTravelIcon from '@material-ui/icons/CardTravel';
 import ReviewIcon from '@material-ui/icons/Stars';
 import TransactionIcon from '@material-ui/icons/MonetizationOn';
 
@@ -62,6 +61,9 @@ class TravellerUserTable extends React.Component {
 
 		this.handleClickDelete = this.handleClickDelete.bind(this);
 		this.handleClickUpdate = this.handleClickUpdate.bind(this);
+		this.handleClickBookings = this.handleClickBookings.bind(this);
+		this.handleClickReviews = this.handleClickReviews.bind(this);
+		this.handleClickTransactions = this.handleClickTransactions.bind(this);
 		this.handleShowDialog = this.handleShowDialog.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleChangePage = this.handleChangePage.bind(this);
@@ -78,6 +80,18 @@ class TravellerUserTable extends React.Component {
 			this.setState({ traveller: nextProps.traveller });
 		}
 	}
+
+	handleClickBookings = value => {
+		this.props.redirect(`/admin/bookings/u/${value}`);
+	};
+
+	handleClickReviews = value => {
+		this.props.redirect(`/admin/reviews/u/${value}`);
+	};
+
+	handleClickTransactions = value => {
+		this.props.redirect(`/admin/transactions/u/${value}`);
+	};
 
 	handleClickUpdate = value => {
 		this.props.redirect(`/admin/travellers/update/${value}`);
@@ -159,7 +173,7 @@ class TravellerUserTable extends React.Component {
 					<TableHead>
 						<TableRow>
 							<TablePagination
-								colSpan={9}
+								colSpan={5}
 								count={count}
 								rowsPerPage={rowsPerPage}
 								page={page}
@@ -186,10 +200,6 @@ class TravellerUserTable extends React.Component {
 								Last Login
 							</TableCell>
 							<TableCell className={classes.cellAction} numeric />
-							<TableCell className={classes.cellAction} numeric />
-							<TableCell className={classes.cellAction} numeric />
-							<TableCell className={classes.cellAction} numeric />
-							<TableCell className={classes.cellAction} numeric />
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -200,8 +210,6 @@ class TravellerUserTable extends React.Component {
 									page * rowsPerPage + rowsPerPage
 								)
 								.map((row, i) => {
-									let name =
-										row.firstname + ' ' + row.surname;
 									return (
 										<TableRow
 											className={classes.rows}
@@ -211,7 +219,7 @@ class TravellerUserTable extends React.Component {
 												className={classes.cellName}
 												scope="row"
 											>
-												{name}
+												{row.name}
 											</TableCell>
 											<TableCell
 												className={classes.cellEmail}
@@ -236,45 +244,33 @@ class TravellerUserTable extends React.Component {
 												className={classes.cellAction}
 												numeric
 											>
-												<IconButton aria-label="Edit">
+												<IconButton aria-label="Bookings">
 													<CardTravelIcon
-														component={Link}
-														to={`/admin/bookings/u/${
-															row._id
-														}`}
+														onClick={() =>
+															this.handleClickBookings(
+																row._id
+															)
+														}
 													/>
 												</IconButton>
-											</TableCell>
-											<TableCell
-												className={classes.cellAction}
-												numeric
-											>
-												<IconButton aria-label="Edit">
+												<IconButton aria-label="Reviews">
 													<ReviewIcon
-														component={Link}
-														to={`/admin/reviews/u/${
-															row._id
-														}`}
+														onClick={() =>
+															this.handleClickReviews(
+																row._id
+															)
+														}
 													/>
 												</IconButton>
-											</TableCell>
-											<TableCell
-												className={classes.cellAction}
-												numeric
-											>
-												<IconButton aria-label="Edit">
+												<IconButton aria-label="Transactions">
 													<TransactionIcon
-														component={Link}
-														to={`/admin/transactions/u/${
-															row._id
-														}`}
+														onClick={() =>
+															this.handleClickTransactions(
+																row._id
+															)
+														}
 													/>
 												</IconButton>
-											</TableCell>
-											<TableCell
-												className={classes.cellAction}
-												numeric
-											>
 												<IconButton aria-label="Edit">
 													<EditIcon
 														onClick={() =>
@@ -284,11 +280,6 @@ class TravellerUserTable extends React.Component {
 														}
 													/>
 												</IconButton>
-											</TableCell>
-											<TableCell
-												className={classes.cellAction}
-												numeric
-											>
 												<IconButton aria-label="Delete">
 													<DeleteForeverIcon
 														onClick={() =>
@@ -309,7 +300,7 @@ class TravellerUserTable extends React.Component {
 					<TableFooter>
 						<TableRow>
 							<TablePagination
-								colSpan={9}
+								colSpan={5}
 								count={count}
 								rowsPerPage={rowsPerPage}
 								page={page}
@@ -329,7 +320,6 @@ class TravellerUserTable extends React.Component {
 		let TravellerTable;
 		if (travellers === null || loading === true) {
 			TravellerTable = <Spinner />;
-			console.log('loading');
 		} else {
 			TravellerTable = TravellerUserTable;
 		}
@@ -343,12 +333,12 @@ class TravellerUserTable extends React.Component {
 }
 
 TravellerUserTable.propTypes = {
-	travellerGetAll: PropTypes.func.isRequired,
+	classes: PropTypes.object.isRequired,
 	redirect: PropTypes.func.isRequired,
+	traveller: PropTypes.object.isRequired,
 	travellerClear: PropTypes.func.isRequired,
 	travellerDelete: PropTypes.func.isRequired,
-	classes: PropTypes.object.isRequired,
-	traveller: PropTypes.object.isRequired,
+	travellerGetAll: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
 	traveller: state.traveller,
@@ -356,5 +346,5 @@ const mapStateToProps = state => ({
 
 export default connect(
 	mapStateToProps,
-	{ travellerGetAll, redirect, travellerClear, travellerDelete }
+	{ redirect, travellerClear, travellerDelete, travellerGetAll }
 )(withStyles(styles, { withTheme: true })(TravellerUserTable));

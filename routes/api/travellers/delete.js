@@ -1,48 +1,45 @@
 //load models
-const selectModel = require("../../../functions/modelFunctions");
-const dbFunctions = require("../../../functions/dbFunctions");
+const Users = require('../../../models/Users');
+const Traveller = require('../../../models/TravellerProfiles');
 
-module.exports = function deleteProfile(req, res) {
-  let errors = {};
-  const dbSet = new dbFunctions();
-  const props = {
-    userNotFound: "The current user could not be identified",
-    profileNotFound: "The current user profile could not be identified",
-    roleNotFound: "The current user's role could not be identified",
-    msg: "The current users profile has been removed"
-  };
+//validation
+const validator = require('validator');
 
-  // User role could not be found
-  if (!req.user._id) {
-    errors.userNotFound = props.userNotFound;
-    return res.status(404).json(errors);
-  } else if (!req.user.role) {
-    errors.roleNotFound = props.roleNotFound;
-    return res.status(404).json(errors);
-  }
+module.exports = function deleteTraveller(req, res) {
+	let errors = {};
+	const regex = new RegExp('^[a-zA-Z0-9]*$');
 
-  //load models depending on current User Role
-  let Profile = selectModel(req.user.role);
+	//validate userID
+	if (!req.params.id) {
+		errors.id = 'Traveller ID is not provided';
+		return res.status(404).json(errors);
+	}
+	if (typeof req.params.id !== 'string') {
+		errors.id = 'Traveller ID is not valid, must be a string';
+		return res.status(404).json(errors);
+	}
+	if (!validator.isLength(req.params.id, { min: 24, max: 24 })) {
+		errors.id = 'Traveller ID is not valid, must be 24 characters';
+		return res.status(404).json(errors);
+	}
+	if (!validator.matches(req.params.id, regex)) {
+		errors.id = 'Traveller ID is not a valid format';
+		return res.status(404).json(errors);
+	}
 
-  //find user profile and remove
-  let profileUser = dbSet.remove({
-    model: Profile,
-    userid: req.user._id
-  });
+	//find traveller profile and remove
+	Traveller.findOneAndRemove({ user: req.params.id })
+		.exec()
+		.catch(err => {
+			console.log(err);
+			return res.status(400).json(err.response.data);
+		});
 
-  //return promise
-  profileUser.then(result => {
-    if (result) {
-      return res.status(200).json(props.msg);
-    } else {
-      return res.status(400).json(props.profileNotFound);
-    }
-  });
-
-  //catch error
-  profileUser.catch(err => {
-    console.log(err);
-    errors.notRemoved = "Profile could not be removed";
-    return res.status(400).json(errors);
-  });
+	//find traveller user account and remove
+	Users.findOneAndRemove({ _id: req.params.id })
+		.exec()
+		.catch(err => {
+			console.log(err);
+			return res.status(400).json(err.response.data);
+		});
 };

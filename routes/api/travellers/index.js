@@ -42,7 +42,7 @@ routerSet.publicRoute({
 routerSet.publicRoute({
 	router,
 	routeType: 'delete',
-	route: '/',
+	route: '/:id',
 	incFile: '../routes/api/travellers/delete.js',
 });
 

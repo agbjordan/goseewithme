@@ -33,7 +33,7 @@ export const travellerGetById = travellerData => dispatch => {
 
 export const travellerDelete = travellerData => dispatch => {
 	axios
-		.delete(`/api/travellers/delete/${travellerData}`)
+		.delete(`/api/travellers/${travellerData}`)
 		.then(res => {
 			dispatch({
 				type: TRAVELLER_DELETE,
@@ -52,7 +52,7 @@ export const travellerGetAll = () => dispatch => {
 	dispatch({ type: TRAVELLER_LOADING, payload: true });
 
 	axios
-		.get(`/api/travellers/get`)
+		.get(`/api/travellers/`)
 		.then(res =>
 			dispatch({
 				type: TRAVELLER_GET_ALL,

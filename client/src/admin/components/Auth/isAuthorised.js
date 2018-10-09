@@ -29,7 +29,7 @@ const AuthenticatedRoute = ({ component: Component, ...rest }) => {
 
 AuthenticatedRoute.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
-	roles: PropTypes.object.isRequired,
+	roles: PropTypes.object,
 	customRole: PropTypes.string,
 	redirectRole: PropTypes.string,
 	redirect: PropTypes.string,
