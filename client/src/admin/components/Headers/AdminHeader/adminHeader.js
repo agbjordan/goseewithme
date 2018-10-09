@@ -65,6 +65,10 @@ class AdminHeader extends React.Component {
 		if (nextProps.auth) {
 			this.setState({ auth: nextProps.auth });
 		}
+
+		if (nextProps.roles) {
+			this.setState({ roles: nextProps.roles });
+		}
 	}
 
 	handleDrawerOpen = () => {
@@ -80,7 +84,7 @@ class AdminHeader extends React.Component {
 	};
 
 	render() {
-		const { classes, theme, children } = this.props;
+		const { classes, theme, children, roles } = this.props;
 		const { adminIsAuthenticated } = this.props.auth;
 
 		const HeaderBar = (
@@ -198,136 +202,181 @@ class AdminHeader extends React.Component {
 
 		const SectionBookings = (
 			<List>
-				<ListItem button component={Link} to="/admin/bookings">
-					<Tooltip title="Bookings" placement="right">
-						<ListItemIcon>
-							{this.state.bookings <= 0 ? (
-								<CardTravelIcon />
-							) : (
-								<Badge
-									badgeContent={this.state.bookings}
-									color="primary"
-								>
+				{roles.bookings === true ? (
+					<ListItem button component={Link} to="/admin/bookings">
+						<Tooltip title="Bookings" placement="right">
+							<ListItemIcon>
+								{this.state.bookings <= 0 ? (
 									<CardTravelIcon />
-								</Badge>
-							)}
-						</ListItemIcon>
-					</Tooltip>
-					<ListItemText primary="Bookings" />
-				</ListItem>
-				<ListItem button component={Link} to="/admin/products">
-					<Tooltip title="Products" placement="right">
-						<ListItemIcon>
-							<ViewListIcon />
-						</ListItemIcon>
-					</Tooltip>
-					<ListItemText primary="Products" />
-				</ListItem>
-				<ListItem button component={Link} to="/admin/reviews">
-					<Tooltip title="Reivews" placement="right">
-						<ListItemIcon>
-							{this.state.reviews <= 0 ? (
-								<ReviewIcon />
-							) : (
-								<Badge
-									badgeContent={this.state.reviews}
-									color="primary"
-								>
+								) : (
+									<Badge
+										badgeContent={this.state.bookings}
+										color="primary"
+									>
+										<CardTravelIcon />
+									</Badge>
+								)}
+							</ListItemIcon>
+						</Tooltip>
+						<ListItemText primary="Bookings" />
+					</ListItem>
+				) : null}
+
+				{roles.products === true ? (
+					<ListItem button component={Link} to="/admin/products">
+						<Tooltip title="Products" placement="right">
+							<ListItemIcon>
+								<ViewListIcon />
+							</ListItemIcon>
+						</Tooltip>
+						<ListItemText primary="Products" />
+					</ListItem>
+				) : null}
+
+				{roles.reviews === true ? (
+					<ListItem button component={Link} to="/admin/reviews">
+						<Tooltip title="Reivews" placement="right">
+							<ListItemIcon>
+								{this.state.reviews <= 0 ? (
 									<ReviewIcon />
-								</Badge>
-							)}
-						</ListItemIcon>
-					</Tooltip>
-					<ListItemText primary="Reviews" />
-				</ListItem>
-				<ListItem button component={Link} to="/admin/transactions">
-					<Tooltip title="Transactions" placement="right">
-						<ListItemIcon>
-							{this.state.transactions <= 0 ? (
-								<TransactionIcon />
-							) : (
-								<Badge
-									badgeContent={this.state.transactions}
-									color="primary"
-								>
+								) : (
+									<Badge
+										badgeContent={this.state.reviews}
+										color="primary"
+									>
+										<ReviewIcon />
+									</Badge>
+								)}
+							</ListItemIcon>
+						</Tooltip>
+						<ListItemText primary="Reviews" />
+					</ListItem>
+				) : null}
+
+				{roles.transactions === true ? (
+					<ListItem button component={Link} to="/admin/transactions">
+						<Tooltip title="Transactions" placement="right">
+							<ListItemIcon>
+								{this.state.transactions <= 0 ? (
 									<TransactionIcon />
-								</Badge>
-							)}
-						</ListItemIcon>
-					</Tooltip>
-					<ListItemText primary="Transactions" />
-				</ListItem>
+								) : (
+									<Badge
+										badgeContent={this.state.transactions}
+										color="primary"
+									>
+										<TransactionIcon />
+									</Badge>
+								)}
+							</ListItemIcon>
+						</Tooltip>
+						<ListItemText primary="Transactions" />
+					</ListItem>
+				) : null}
 			</List>
 		);
 
 		const SectionAccounts = (
 			<React.Fragment>
 				<List>
-					<ListItem button component={Link} to="/admin/travellers">
-						<Tooltip title="Travellers" placement="right">
-							<ListItemIcon>
-								<TravellerIcon />
-							</ListItemIcon>
-						</Tooltip>
-						<ListItemText primary="Travellers" />
-					</ListItem>
-					<ListItem button component={Link} to="/admin/guides">
-						<Tooltip title="Guides" placement="right">
-							<ListItemIcon>
-								<GuideIcon />
-							</ListItemIcon>
-						</Tooltip>
-						<ListItemText primary="Guides" />
-					</ListItem>
-					<ListItem button component={Link} to="/admin/agents">
-						<Tooltip title="Agents" placement="right">
-							<ListItemIcon>
-								<AgentIcon />
-							</ListItemIcon>
-						</Tooltip>
-						<ListItemText primary="Agents" />
-					</ListItem>
+					{roles.travellers === true ? (
+						<ListItem
+							button
+							component={Link}
+							to="/admin/travellers"
+						>
+							<Tooltip title="Travellers" placement="right">
+								<ListItemIcon>
+									<TravellerIcon />
+								</ListItemIcon>
+							</Tooltip>
+							<ListItemText primary="Travellers" />
+						</ListItem>
+					) : null}
+
+					{roles.guides === true ? (
+						<ListItem button component={Link} to="/admin/guides">
+							<Tooltip title="Guides" placement="right">
+								<ListItemIcon>
+									<GuideIcon />
+								</ListItemIcon>
+							</Tooltip>
+							<ListItemText primary="Guides" />
+						</ListItem>
+					) : null}
+
+					{roles.agents === true ? (
+						<ListItem button component={Link} to="/admin/agents">
+							<Tooltip title="Agents" placement="right">
+								<ListItemIcon>
+									<AgentIcon />
+								</ListItemIcon>
+							</Tooltip>
+							<ListItemText primary="Agents" />
+						</ListItem>
+					) : null}
 				</List>
 				<Divider />
 				<List>
-					<ListItem button component={Link} to="/admin/affiliates">
-						<Tooltip title="Affiliates" placement="right">
-							<ListItemIcon>
-								<AffiliateIcon />
-							</ListItemIcon>
-						</Tooltip>
-						<ListItemText primary="Affiliates" />
-					</ListItem>
-					<ListItem button component={Link} to="/admin/influencers">
-						<Tooltip title="Influencers" placement="right">
-							<ListItemIcon>
-								<InfluencerIcon />
-							</ListItemIcon>
-						</Tooltip>
-						<ListItemText primary="Influencers" />
-					</ListItem>
+					{roles.affiliates === true ? (
+						<ListItem
+							button
+							component={Link}
+							to="/admin/affiliates"
+						>
+							<Tooltip title="Affiliates" placement="right">
+								<ListItemIcon>
+									<AffiliateIcon />
+								</ListItemIcon>
+							</Tooltip>
+							<ListItemText primary="Affiliates" />
+						</ListItem>
+					) : null}
+
+					{roles.influencers === true ? (
+						<ListItem
+							button
+							component={Link}
+							to="/admin/influencers"
+						>
+							<Tooltip title="Influencers" placement="right">
+								<ListItemIcon>
+									<InfluencerIcon />
+								</ListItemIcon>
+							</Tooltip>
+							<ListItemText primary="Influencers" />
+						</ListItem>
+					) : null}
 				</List>
 			</React.Fragment>
 		);
 
 		const SectionPersonal = (
 			<List>
-				<ListItem button component={Link} to="/admin/administrators">
-					<Tooltip title="Administrators" placement="right">
-						<ListItemIcon>
-							<UsersIcon />
-						</ListItemIcon>
-					</Tooltip>
-					<ListItemText primary="Administrators" />
-				</ListItem>
-				<ListItem button component={Link} to="/admin/settings">
-					<Tooltip title="Settings" placement="right">
-						<ListItemIcon>
-							<SettingsIcon />
-						</ListItemIcon>
-					</Tooltip>
-					<ListItemText primary="Settings" />
-				</ListItem>
+				{roles.administrators === true ? (
+					<ListItem
+						button
+						component={Link}
+						to="/admin/administrators"
+					>
+						<Tooltip title="Administrators" placement="right">
+							<ListItemIcon>
+								<UsersIcon />
+							</ListItemIcon>
+						</Tooltip>
+						<ListItemText primary="Administrators" />
+					</ListItem>
+				) : null}
+
+				{roles.settings === true ? (
+					<ListItem button component={Link} to="/admin/settings">
+						<Tooltip title="Settings" placement="right">
+							<ListItemIcon>
+								<SettingsIcon />
+							</ListItemIcon>
+						</Tooltip>
+						<ListItemText primary="Settings" />
+					</ListItem>
+				) : null}
 			</List>
 		);
 
@@ -377,6 +426,7 @@ class AdminHeader extends React.Component {
 
 AdminHeader.propTypes = {
 	auth: PropTypes.object.isRequired,
+	roles: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
 	theme: PropTypes.object.isRequired,
 	adminLogout: PropTypes.func.isRequired,
@@ -384,6 +434,7 @@ AdminHeader.propTypes = {
 
 const mapStateToProps = state => ({
 	auth: state.auth,
+	roles: state.auth.administrator.roles,
 });
 
 export default connect(

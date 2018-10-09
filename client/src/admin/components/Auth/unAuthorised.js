@@ -10,7 +10,7 @@ const UnauthenticatedRoute = ({ component: Component, ...rest }) => {
 		<Route
 			{...rest}
 			render={props =>
-				!rest.isAuthenticated ? (
+				!rest.adminIsAuthenticated ? (
 					<Component {...props} />
 				) : (
 					<Redirect to={query.redirect || rest.redirect} />
@@ -21,7 +21,7 @@ const UnauthenticatedRoute = ({ component: Component, ...rest }) => {
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	adminIsAuthenticated: state.auth.adminIsAuthenticated,
 });
 
 export default connect(

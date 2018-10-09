@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
+import AuthenticatedRoute from '../components/Auth/isAuthorised';
+import UnauthenticatedRoute from '../components/Auth/unAuthorised';
 
 const Login = Loadable({
 	loader: () => import(/* webpackChunkName: "login" */ './Login'),
@@ -118,30 +120,134 @@ const AdministratorsCreate = Loadable({
 export default () => (
 	<Switch>
 		<Route exact path="/" component={Homepage} />
-		<Route exact path="/admin/" component={Dashboard} />
-		<Route exact path="/admin/login" component={Login} />
-		<Route exact path="/admin/affiliates" component={Affiliates} />
-		<Route exact path="/admin/agents" component={Agents} />
-		<Route exact path="/admin/bookings" component={Bookings} />
-		<Route exact path="/admin/guides" component={Guides} />
-		<Route exact path="/admin/inbox" component={Inbox} />
-		<Route exact path="/admin/influencers" component={Influencers} />
-		<Route exact path="/admin/notifications" component={Notifications} />
-		<Route exact path="/admin/products" component={Products} />
-		<Route exact path="/admin/reviews" component={Reviews} />
-		<Route exact path="/admin/settings" component={Settings} />
-		<Route exact path="/admin/transactions" component={Transactions} />
-		<Route exact path="/admin/travellers" component={Travellers} />
-		<Route exact path="/admin/administrators" component={Administrators} />
-		<Route
+
+		<UnauthenticatedRoute
+			exact
+			path="/admin/login"
+			redirect="/admin/dashboard"
+			component={Login}
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/dashboard"
+			redirect="/admin/login"
+			component={Dashboard}
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/affiliates"
+			redirect="/admin/login"
+			customRole="affiliates"
+			redirectRole="/admin/dashboard"
+			component={Affiliates}
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/agents"
+			redirect="/admin/login"
+			customRole="agents"
+			redirectRole="/admin/dashboard"
+			component={Agents}
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/bookings"
+			redirect="/admin/login"
+			customRole="bookings"
+			redirectRole="/admin/dashboard"
+			component={Bookings}
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/guides"
+			component={Guides}
+			customRole="guides"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/inbox"
+			component={Inbox}
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/influencers"
+			component={Influencers}
+			customRole="influencers"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/notifications"
+			component={Notifications}
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/products"
+			component={Products}
+			customRole="products"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/reviews"
+			component={Reviews}
+			customRole="reviews"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/settings"
+			component={Settings}
+			customRole="settings"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/transactions"
+			component={Transactions}
+			customRole="transactions"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/travellers"
+			component={Travellers}
+			customRole="travellers"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/administrators"
+			component={Administrators}
+			customRole="administrators"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
 			exact
 			path="/admin/administrators/create"
 			component={AdministratorsCreate}
+			customRole="administrators"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
 		/>
-		<Route
+		<AuthenticatedRoute
 			exact
 			path="/admin/administrators/update/:id"
 			component={AdministratorsUpdate}
+			customRole="administrators"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
 		/>
 	</Switch>
 );
