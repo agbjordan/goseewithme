@@ -87,15 +87,24 @@ export const redirect = value => dispatch => {
 export const establishCurrentAdmin = () => dispatch =>
 	new Promise(resolve => {
 		let AdminToken = '';
+		let currentDate = Date.now() / 1000;
+
 		if (localStorage.goseewithmeAdmin) {
-			setAuthToken(localStorage.goseewithmeAdmin);
 			AdminToken = jwt_decode(localStorage.goseewithmeAdmin);
+
+			if (AdminToken.exp > currentDate) {
+				setAuthToken(localStorage.goseewithmeAdmin);
+			} else {
+				AdminToken = '';
+				adminLogout();
+			}
 		}
 
-		if (AdminToken.length !== '') {
+		if (AdminToken !== '') {
 			dispatch(setCurrentAdmin(AdminToken));
 			resolve(AdminToken);
 		} else {
+			setAuthToken({});
 			resolve({});
 		}
 	});

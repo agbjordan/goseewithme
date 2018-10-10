@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import AuthenticatedRoute from '../components/Auth/isAuthorised';
 import UnauthenticatedRoute from '../components/Auth/unAuthorised';
@@ -8,12 +8,6 @@ const Login = Loadable({
 	loader: () => import(/* webpackChunkName: "login" */ './Login'),
 	loading: () => null,
 	modules: ['login'],
-});
-
-const Homepage = Loadable({
-	loader: () => import(/* webpackChunkName: "homepage" */ './homepage'),
-	loading: () => null,
-	modules: ['homepage'],
 });
 
 const Dashboard = Loadable({
@@ -119,7 +113,19 @@ const AdministratorsCreate = Loadable({
 
 export default () => (
 	<Switch>
-		<Route exact path="/" component={Homepage} />
+		<UnauthenticatedRoute
+			exact
+			path="/"
+			redirect="/admin/dashboard"
+			component={Login}
+		/>
+
+		<UnauthenticatedRoute
+			exact
+			path="/admin"
+			redirect="/admin/dashboard"
+			component={Login}
+		/>
 
 		<UnauthenticatedRoute
 			exact

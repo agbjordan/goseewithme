@@ -36,7 +36,7 @@ class LoginForm extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.auth.adminIsAuthenticated === true) {
-			this.props.redirect('/admin');
+			this.props.redirect('/admin/dashboard');
 		}
 
 		if (nextProps.errors) {
