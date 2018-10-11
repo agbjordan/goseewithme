@@ -36,6 +36,16 @@ routerSet.publicRoute({
 	incFile: '../routes/api/travellers/post.js',
 });
 
+//Route     POST /api/travellers/register
+//Desc      Create a Traveller Account & Profile using an Adminsitrator Account
+//Access    Private
+routerSet.privateRoute({
+	router,
+	routeType: 'post',
+	route: '/register',
+	incFile: '../routes/api/travellers/register.js',
+});
+
 //Route     DELETE /api/travellers
 //Desc      Delete a Traveller profile
 //Access    Private

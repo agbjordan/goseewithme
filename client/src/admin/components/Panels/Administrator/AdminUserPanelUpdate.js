@@ -102,7 +102,11 @@ class AdminUsersPanelDefault extends React.Component {
 						<AdminUpdate />
 					</TabContainer>
 				</SwipeableViews>
-				<BtnAdd color="primary" tooltip="Update Administrator" />
+				<BtnAdd
+					color="primary"
+					tooltip="Update Administrator"
+					redirect="/admin/administrators/create"
+				/>
 			</React.Fragment>
 		);
 	}

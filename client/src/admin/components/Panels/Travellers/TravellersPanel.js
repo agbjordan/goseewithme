@@ -64,7 +64,11 @@ class TravellerPanelDefault extends React.Component {
 					</TabContainer>
 				</SwipeableViews>
 
-				<BtnAdd color="primary" tooltip="Create Traveller Account" />
+				<BtnAdd
+					color="primary"
+					tooltip="Create Traveller Account"
+					redirect="/admin/travellers/create"
+				/>
 			</React.Fragment>
 		);
 	}

@@ -90,6 +90,13 @@ const Travellers = Loadable({
 	modules: ['travellers'],
 });
 
+const TravellersCreate = Loadable({
+	loader: () =>
+		import(/* webpackChunkName: "Travellers" */ './Travellers/create'),
+	loading: () => null,
+	modules: ['travellers'],
+});
+
 const Administrators = Loadable({
 	loader: () =>
 		import(/* webpackChunkName: "Administrators" */ './Administrators'),
@@ -223,6 +230,10 @@ export default () => (
 			redirectRole="/admin/dashboard"
 			redirect="/admin/login"
 		/>
+
+		{/*  */}
+		{/* TRAVELLER ROUTES */}
+		{/*  */}
 		<AuthenticatedRoute
 			exact
 			path="/admin/travellers"
@@ -231,6 +242,18 @@ export default () => (
 			redirectRole="/admin/dashboard"
 			redirect="/admin/login"
 		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/travellers/create"
+			component={TravellersCreate}
+			customRole="travellers"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+
+		{/*  */}
+		{/* ADMINISTRATOR ROUTES */}
+		{/*  */}
 		<AuthenticatedRoute
 			exact
 			path="/admin/administrators"

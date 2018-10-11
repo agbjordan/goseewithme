@@ -47,7 +47,11 @@ export default (state = initialState, action) => {
 			return { ...state, traveller: action.payload, isSuccess: true };
 
 		case TRAVELLER_DELETE:
-			return { ...state, traveller: {}, travellers: {}, isSuccess: true };
+			return {
+				...state,
+				traveller: {},
+				isSuccess: false,
+			};
 
 		case TRAVELLER_CLEAR:
 			return { ...state, traveller: {} };

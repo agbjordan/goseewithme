@@ -19,7 +19,7 @@ const styles = theme => ({
 });
 
 function SimpleTooltips(props) {
-	const { classes, tooltip, color } = props;
+	const { classes, tooltip, color, redirect } = props;
 	return (
 		<Tooltip title={tooltip} placement="left">
 			<Button
@@ -27,7 +27,7 @@ function SimpleTooltips(props) {
 				color={color}
 				className={classes.absolute}
 				component={Link}
-				to="/admin/administrators/create"
+				to={redirect}
 			>
 				<AddIcon />
 			</Button>
@@ -37,6 +37,7 @@ function SimpleTooltips(props) {
 
 SimpleTooltips.propTypes = {
 	classes: PropTypes.object.isRequired,
+	redirect: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(SimpleTooltips);

@@ -72,7 +72,6 @@ class TravellerUserTable extends React.Component {
 
 	componentWillMount() {
 		this.props.travellerGetAll();
-		this.props.travellerClear();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -107,8 +106,6 @@ class TravellerUserTable extends React.Component {
 
 	handleDelete = value => {
 		this.props.travellerDelete(value);
-		this.props.travellerGetAll();
-		this.props.travellerClear();
 		this.handleShowDialog();
 	};
 

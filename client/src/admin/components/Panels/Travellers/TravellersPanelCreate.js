@@ -12,8 +12,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
 //components
-import BtnAdd from '../Buttons/Btn_Add_Float';
-import TravellerRegistration from '../Forms/TravellerRegistration';
+import BtnAdd from '../../Buttons/Btn_Add_Float';
+import TravellerRegistration from '../../Forms/TravellerUserForms/TravellerAccountCreate';
 import styles from './styles';
 
 //functions
@@ -78,7 +78,11 @@ class TravellerPanelDefault extends React.Component {
 						<TravellerRegistration />
 					</TabContainer>
 				</SwipeableViews>
-				<BtnAdd color="primary" tooltip="Create Traveller Account" />
+				<BtnAdd
+					color="primary"
+					tooltip="Create Traveller Account"
+					redirect="/admin/travellers/create"
+				/>
 			</React.Fragment>
 		);
 	}

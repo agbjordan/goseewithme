@@ -12,8 +12,12 @@ import {
 	GET_ERRORS,
 } from './types';
 
-export const travellerGetById = travellerData => dispatch => {
+export const travellerLoading = () => dispatch => {
 	dispatch({ type: TRAVELLER_LOADING, payload: true });
+};
+
+export const travellerGetById = travellerData => dispatch => {
+	travellerLoading();
 
 	axios
 		.get(`/api/travellers/get/${travellerData}`)
@@ -31,12 +35,14 @@ export const travellerGetById = travellerData => dispatch => {
 		);
 };
 
-export const travellerDelete = travellerData => dispatch => {
+export const travellerGetAll = () => dispatch => {
+	dispatch(travellerLoading());
+
 	axios
-		.delete(`/api/travellers/${travellerData}`)
+		.get(`/api/travellers/`)
 		.then(res => {
 			dispatch({
-				type: TRAVELLER_DELETE,
+				type: TRAVELLER_GET_ALL,
 				payload: res.data,
 			});
 		})
@@ -48,23 +54,26 @@ export const travellerDelete = travellerData => dispatch => {
 		);
 };
 
-export const travellerGetAll = () => dispatch => {
-	dispatch({ type: TRAVELLER_LOADING, payload: true });
+export const travellerDelete = travellerData => dispatch => {
+	dispatch(travellerLoading());
 
 	axios
-		.get(`/api/travellers/`)
-		.then(res =>
+		.delete(`/api/travellers/${travellerData}`)
+		.then(res => {
 			dispatch({
-				type: TRAVELLER_GET_ALL,
+				type: TRAVELLER_DELETE,
 				payload: res.data,
-			})
-		)
-		.catch(err =>
+			});
+		})
+		.then(res => {
+			dispatch(travellerGetAll());
+		})
+		.catch(err => {
 			dispatch({
 				type: GET_ERRORS,
 				payload: err.response.data,
-			})
-		);
+			});
+		});
 };
 
 export const travellerRegister = travellerData => dispatch => {
