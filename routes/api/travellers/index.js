@@ -46,6 +46,16 @@ routerSet.privateRoute({
 	incFile: '../routes/api/travellers/register.js',
 });
 
+//Route     POST /api/travellers/update
+//Desc      Update a Traveller Account & Profile using an Adminsitrator Account
+//Access    Private
+routerSet.privateRoute({
+	router,
+	routeType: 'post',
+	route: '/update',
+	incFile: '../routes/api/travellers/udpate.js',
+});
+
 //Route     DELETE /api/travellers
 //Desc      Delete a Traveller profile
 //Access    Private

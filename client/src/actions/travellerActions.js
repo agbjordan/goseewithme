@@ -20,7 +20,7 @@ export const travellerGetById = travellerData => dispatch => {
 	travellerLoading();
 
 	axios
-		.get(`/api/travellers/get/${travellerData}`)
+		.get(`/api/travellers/${travellerData}`)
 		.then(res => {
 			dispatch({
 				type: TRAVELLER_GET_BY_ID,

@@ -97,6 +97,13 @@ const TravellersCreate = Loadable({
 	modules: ['travellers'],
 });
 
+const TravellersUpdate = Loadable({
+	loader: () =>
+		import(/* webpackChunkName: "Travellers" */ './Travellers/update'),
+	loading: () => null,
+	modules: ['travellers'],
+});
+
 const Administrators = Loadable({
 	loader: () =>
 		import(/* webpackChunkName: "Administrators" */ './Administrators'),
@@ -246,6 +253,14 @@ export default () => (
 			exact
 			path="/admin/travellers/create"
 			component={TravellersCreate}
+			customRole="travellers"
+			redirectRole="/admin/dashboard"
+			redirect="/admin/login"
+		/>
+		<AuthenticatedRoute
+			exact
+			path="/admin/travellers/update/:id"
+			component={TravellersUpdate}
 			customRole="travellers"
 			redirectRole="/admin/dashboard"
 			redirect="/admin/login"
