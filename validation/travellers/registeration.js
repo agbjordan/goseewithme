@@ -23,13 +23,7 @@ module.exports = function validate(data) {
 	}
 
 	//name validation
-
-	if (
-		!validator.isLength(data.name, {
-			min: 2,
-			max: 50,
-		})
-	) {
+	if (!validator.isLength(data.name, { min: 2, max: 50 })) {
 		errors.name = 'Name must be between 2 and 50 characters';
 	}
 
@@ -74,20 +68,6 @@ module.exports = function validate(data) {
 		errors.confirm = 'Password Confirm is required';
 	}
 
-	//city validation
-	if (!is_Empty(data.city)) {
-		if (validator.isEmpty(data.city)) {
-			errors.city = 'City is required';
-		}
-	}
-
-	//country validation
-	if (!is_Empty(data.country)) {
-		if (validator.isEmpty(data.country)) {
-			errors.country = 'Country is required';
-		}
-	}
-
 	//telephone validation
 	if (!is_Empty(data.telephone)) {
 		if (!validator.matches(data.telephone, telephoneCheck)) {
@@ -111,6 +91,20 @@ module.exports = function validate(data) {
 			})
 		) {
 			errors.mobile = 'Your Mobile must be between 2 and 40 characters';
+		}
+	}
+
+	//city validation
+	if (!is_Empty(data.city)) {
+		if (validator.isEmpty(data.city)) {
+			errors.city = 'City is required';
+		}
+	}
+
+	//country validation
+	if (!is_Empty(data.country)) {
+		if (validator.isEmpty(data.country)) {
+			errors.country = 'Country is required';
 		}
 	}
 
@@ -141,14 +135,6 @@ module.exports = function validate(data) {
 		'agentNews',
 		'competitionNews',
 	];
-
-	newsletters.map((news, i, newsletters) => {
-		if (!is_Empty(data[news])) {
-			if (!validator.isBoolean(data[news])) {
-				errors[news] = 'Value not valid: True or False Only';
-			}
-		}
-	});
 
 	return {
 		errors: errors,

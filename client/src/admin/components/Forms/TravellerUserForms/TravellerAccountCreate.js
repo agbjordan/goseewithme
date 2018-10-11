@@ -120,33 +120,26 @@ export class TravellerRegistration extends Component {
 			confirm: this.state.confirm,
 			role: this.state.role,
 			profilePic: this.state.profilePic,
-			contactInfo: {
-				telephone: this.state.telephone,
-				mobile: this.state.mobile,
-				email: this.state.email,
-				addressLine01: this.state.addressLine01,
-				addressLine02: this.state.addressLine02,
-				city: this.state.city,
-				state: this.state.state,
-				country: this.state.country,
-				zipcode: this.state.zipcode,
-			},
-			socialMedia: {
-				facebook: this.state.facebook,
-				twitter: this.state.twitter,
-				line: this.state.line,
-				wechat: this.state.wechat,
-				whatsapp: this.state.whatsapp,
-				linkedin: this.state.linkedin,
-				instagram: this.state.instagram,
-			},
-			newsletters: {
-				productNews: this.state.productNews,
-				websiteNews: this.state.websiteNews,
-				guideNews: this.state.guideNews,
-				agentNews: this.state.agentNews,
-				competitionNews: this.state.competitionNews,
-			},
+			telephone: this.state.telephone,
+			mobile: this.state.mobile,
+			addressLine01: this.state.addressLine01,
+			addressLine02: this.state.addressLine02,
+			city: this.state.city,
+			state: this.state.state,
+			country: this.state.country,
+			zipcode: this.state.zipcode,
+			facebook: this.state.facebook,
+			twitter: this.state.twitter,
+			line: this.state.line,
+			wechat: this.state.wechat,
+			whatsapp: this.state.whatsapp,
+			linkedin: this.state.linkedin,
+			instagram: this.state.instagram,
+			productNews: this.state.productNews,
+			websiteNews: this.state.websiteNews,
+			guideNews: this.state.guideNews,
+			agentNews: this.state.agentNews,
+			competitionNews: this.state.competitionNews,
 		};
 
 		this.props.travellerRegister(newTraveller);
@@ -163,9 +156,7 @@ export class TravellerRegistration extends Component {
 	};
 
 	onChangeToggle = event => {
-		let newsletters = this.state.newsletters;
-		newsletters[event.target.name] = event.target.checked;
-		this.setState({ newsletters: newsletters });
+		this.setState({ [event.target.name]: event.target.checked });
 	};
 
 	onChange = event => {
@@ -300,7 +291,7 @@ export class TravellerRegistration extends Component {
 								control={
 									<Switch
 										checked={this.state.guideNews}
-										onChange={this.handleChangeToggle}
+										onChange={this.onChangeToggle}
 										name="guideNews"
 										value="true"
 									/>
@@ -316,7 +307,7 @@ export class TravellerRegistration extends Component {
 								control={
 									<Switch
 										checked={this.state.agentNews}
-										onChange={this.handleChangeToggle}
+										onChange={this.onChangeToggle}
 										name="agentNews"
 										value="true"
 									/>
@@ -331,7 +322,7 @@ export class TravellerRegistration extends Component {
 								control={
 									<Switch
 										checked={this.state.competitionNews}
-										onChange={this.handleChangeToggle}
+										onChange={this.onChangeToggle}
 										name="competitionNews"
 										value="true"
 									/>

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //List of Props in Schema
@@ -35,108 +35,106 @@ const Schema = mongoose.Schema;
 
 //create schema
 const TravellerSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "users"
-  },
-  profileImg: {
-    type: String
-  },
-  contactInfo: {
-    telephone: {
-      type: String,
-      required: true
-    },
-    mobile: {
-      type: String
-    },
-    email: {
-      type: String,
-      required: true
-    },
-    addressLine01: {
-      type: String
-    },
-    addressLine02: {
-      type: String
-    },
-    city: {
-      type: String
-    },
-    state: {
-      type: String
-    },
-    country: {
-      type: String
-    },
-    zipcode: {
-      type: String
-    }
-  },
-  follows: {
-    type: [String]
-  },
-  socialMedia: {
-    facebook: {
-      type: String
-    },
-    twitter: {
-      type: String
-    },
-    line: {
-      type: String
-    },
-    wechat: {
-      type: String
-    },
-    whatsapp: {
-      type: String
-    },
-    linkedin: {
-      type: String
-    },
-    instagram: {
-      type: String
-    }
-  },
-  newsletters: {
-    productNews: {
-      type: Boolean,
-      default: false
-    },
-    websiteNews: {
-      type: Boolean,
-      default: false
-    },
-    guideNews: {
-      type: Boolean,
-      default: false
-    },
-    agentNews: {
-      type: Boolean,
-      default: false
-    },
-    competitionNews: {
-      type: Boolean,
-      default: false
-    }
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
-  totalLogins: {
-    type: Number,
-    default: 1,
-    min: 1
-  },
-  lastLogin: {
-    type: Date,
-    default: Date.now
-  }
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: 'users',
+	},
+	profileImg: {
+		type: String,
+	},
+	contactInfo: {
+		telephone: {
+			type: String,
+		},
+		mobile: {
+			type: String,
+		},
+		email: {
+			type: String,
+		},
+		addressLine01: {
+			type: String,
+		},
+		addressLine02: {
+			type: String,
+		},
+		city: {
+			type: String,
+		},
+		state: {
+			type: String,
+		},
+		country: {
+			type: String,
+		},
+		zipcode: {
+			type: String,
+		},
+	},
+	follows: {
+		type: [String],
+	},
+	socialMedia: {
+		facebook: {
+			type: String,
+		},
+		twitter: {
+			type: String,
+		},
+		line: {
+			type: String,
+		},
+		wechat: {
+			type: String,
+		},
+		whatsapp: {
+			type: String,
+		},
+		linkedin: {
+			type: String,
+		},
+		instagram: {
+			type: String,
+		},
+	},
+	newsletters: {
+		productNews: {
+			type: Boolean,
+			default: false,
+		},
+		websiteNews: {
+			type: Boolean,
+			default: false,
+		},
+		guideNews: {
+			type: Boolean,
+			default: false,
+		},
+		agentNews: {
+			type: Boolean,
+			default: false,
+		},
+		competitionNews: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	date: {
+		type: Date,
+		default: Date.now,
+	},
+	totalLogins: {
+		type: Number,
+		default: 1,
+		min: 1,
+	},
+	lastLogin: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 module.exports = Traveller = mongoose.model(
-  "travellerProfile",
-  TravellerSchema
+	'travellerProfile',
+	TravellerSchema
 );
